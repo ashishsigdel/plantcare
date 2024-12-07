@@ -8,7 +8,6 @@ import {
 import React, {useState} from 'react';
 import TopSection from './TopSection';
 import {Styles} from '../../../assets/colors/colors';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Login from './Login';
 import Register from './Register';
 
