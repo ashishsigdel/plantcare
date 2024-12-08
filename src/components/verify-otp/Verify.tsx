@@ -17,7 +17,7 @@ import {RootStackParamList} from '../../types/navigation';
 
 const VerifyOtp = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList, 'home'>>();
+    useNavigation<NativeStackNavigationProp<RootStackParamList, 'tab'>>();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(30);
   const inputs = useRef<TextInput[]>([]);
@@ -65,7 +65,7 @@ const VerifyOtp = () => {
     console.log('OTP Entered:', otp.join(''));
     setOtpError('');
     if (otp.join('') === '123456') {
-      navigation.navigate('home');
+      navigation.navigate('tab');
     } else {
       setOtpError('Invalid OTP.');
     }

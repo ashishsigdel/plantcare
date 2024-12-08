@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
 import {Styles} from '../../../assets/colors/colors';
-import {Button} from '@react-navigation/elements';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
@@ -10,13 +9,13 @@ import {Spinner} from '../../components/utils';
 
 const Splash = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList, 'home'>>();
+    useNavigation<NativeStackNavigationProp<RootStackParamList, 'tab'>>();
   const accessToken = '';
 
   useEffect(() => {
     setTimeout(() => {
       if (accessToken) {
-        navigation.navigate('home');
+        navigation.navigate('tab');
       } else {
         navigation.navigate('auth');
       }
