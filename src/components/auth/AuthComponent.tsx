@@ -1,13 +1,18 @@
 import {
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {useState} from 'react';
-import TopSection from './TopSection';
 import {Styles} from '../../../assets/colors/colors';
+import TopSection from './TopSection';
 import Login from './Login';
 import Register from './Register';
 
@@ -15,22 +20,32 @@ const AuthComponent = () => {
   const [openTab, setOpenTab] = useState<'login' | 'register'>('login');
   const openLogin = () => setOpenTab('login');
   const openRegister = () => setOpenTab('register');
-  return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.topContainer}>
-        <TopSection />
-      </SafeAreaView>
 
-      <View style={styles.tabContainer}>
-        {openTab === 'login' ? (
-          <Login openRegister={openRegister} />
-        ) : openTab === 'register' ? (
-          <Register openLogin={openLogin} />
-        ) : (
-          <></>
-        )}
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <SafeAreaView style={styles.topContainer}>
+          <TopSection />
+        </SafeAreaView>
+
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+          style={{flex: 1}}>
+          <ScrollView
+            contentContainerStyle={{flexGrow: 1}}
+            keyboardShouldPersistTaps="handled">
+            <View style={styles.tabContainer}>
+              {openTab === 'login' ? (
+                <Login openRegister={openRegister} />
+              ) : (
+                <Register openLogin={openLogin} />
+              )}
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -42,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: Styles.lightwhite,
   },
   topContainer: {
-    flex: 1,
+    flex: 0.7,
     backgroundColor: Styles.lightwhite,
   },
   tabContainer: {
@@ -51,13 +66,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 15,
-    paddingBottom: 30,
-    position: 'relative',
-    bottom: 0,
-    height: '60%',
-  },
-  loginContainer: {
-    width: '100%',
-    marginHorizontal: 'auto',
+    flex: 1.3,
   },
 });

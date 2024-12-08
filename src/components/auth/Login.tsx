@@ -4,12 +4,19 @@ import {Styles} from '../../../assets/colors/colors';
 import FormField from '../utils/FormField';
 import CustomButton from '../utils/CustomButton';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types/navigation';
 
 interface LoginProps {
   openRegister: () => void;
 }
 
 const Login = ({openRegister}: LoginProps) => {
+  const navigation =
+    useNavigation<
+      NativeStackNavigationProp<RootStackParamList, 'verify-otp'>
+    >();
   return (
     <View style={styles.container}>
       <Text style={styles.loginText}>Login with Phone</Text>
@@ -21,13 +28,16 @@ const Login = ({openRegister}: LoginProps) => {
           inputMode="numeric"
         />
 
-        <TouchableOpacity onPress={openRegister}>
+        <TouchableOpacity
+          onPress={openRegister}
+          style={{alignSelf: 'flex-end'}}
+          activeOpacity={0.7}>
           <Text style={styles.notRegister}>Not Registered?</Text>
         </TouchableOpacity>
 
         <CustomButton
           title="Send OTP"
-          handlePress={() => console.log('Button Pressed')}
+          handlePress={() => navigation.navigate('verify-otp')}
           containerStyles={styles.buttonContainer}
           textStyles={styles.buttonText}
           isLoading={false}
@@ -35,7 +45,6 @@ const Login = ({openRegister}: LoginProps) => {
         />
       </View>
 
-      {/* Help Center Section */}
       <View style={styles.helpContainer}>
         <Icon name="help-circle-outline" size={24} color={Styles.primary} />
         <View style={styles.helpTextContainer}>
@@ -67,12 +76,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   notRegister: {
+    marginTop: 10,
     fontSize: 16,
     fontWeight: '500',
-    marginTop: 9,
-    textAlign: 'right',
     color: Styles.primary,
   },
+
   buttonContainer: {
     marginTop: 32,
     backgroundColor: Styles.primary,

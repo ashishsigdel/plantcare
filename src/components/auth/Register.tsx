@@ -26,7 +26,10 @@ const Register = ({openLogin}: RegisterProps) => {
           inputMode="numeric"
         />
 
-        <TouchableOpacity onPress={openLogin}>
+        <TouchableOpacity
+          onPress={openLogin}
+          style={{alignSelf: 'flex-end'}}
+          activeOpacity={0.7}>
           <Text style={styles.notRegister}>Already Registered?</Text>
         </TouchableOpacity>
 
@@ -62,12 +65,12 @@ const styles = StyleSheet.create({
     rowGap: 10,
   },
   notRegister: {
+    marginTop: 10,
     fontSize: 16,
     fontWeight: '500',
-    marginTop: 9,
-    textAlign: 'right',
     color: Styles.primary,
   },
+
   buttonContainer: {
     marginTop: 26,
     backgroundColor: Styles.primary,
