@@ -21,6 +21,7 @@ const VerifyOtp = () => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(30);
   const inputs = useRef<TextInput[]>([]);
+  const [otpError, setOtpError] = useState<string>('');
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
@@ -62,8 +63,11 @@ const VerifyOtp = () => {
 
   const handleVerify = () => {
     console.log('OTP Entered:', otp.join(''));
-    if (otp.join('').length === 6) {
+    setOtpError('');
+    if (otp.join('') === '123456') {
       navigation.navigate('home');
+    } else {
+      setOtpError('Invalid OTP.');
     }
   };
 
@@ -80,7 +84,7 @@ const VerifyOtp = () => {
             <TextInput
               key={index}
               ref={ref => (inputs.current[index] = ref!)}
-              style={styles.otpInput}
+              style={otpError ? styles.otpInputError : styles.otpInput}
               keyboardType="numeric"
               maxLength={1}
               value={digit}
@@ -89,7 +93,7 @@ const VerifyOtp = () => {
             />
           ))}
         </View>
-
+        {otpError && <Text style={styles.errorText}>{otpError}</Text>}
         <View style={styles.resendContainer}>
           <Text style={styles.resendText}>Does not received?</Text>
           {timer > 0 && (
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '80%',
-    marginBottom: 20,
+    marginBottom: 5,
   },
   otpInput: {
     borderWidth: 1,
@@ -152,10 +156,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Styles.primary,
   },
+  otpInputError: {
+    borderWidth: 1,
+    borderColor: Styles.red,
+    borderRadius: 8,
+    width: 50,
+    height: 50,
+    textAlign: 'center',
+    fontSize: 18,
+    color: Styles.primary,
+  },
   resendContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 20,
+    marginTop: 10,
   },
   resendActive: {
     borderColor: Styles.primary,
@@ -188,5 +203,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: Styles.white,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 5,
   },
 });

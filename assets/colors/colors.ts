@@ -4,4 +4,5 @@ export const Styles = {
   gray: 'gray',
   black: 'black',
   lightwhite: '#F2EFEA',
+  red: 'red',
 };
