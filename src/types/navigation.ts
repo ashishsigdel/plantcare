@@ -6,4 +6,5 @@ export type RootStackParamList = {
   profile: undefined;
   auth: undefined;
   'verify-otp': undefined;
+  'select-language': undefined;
 };

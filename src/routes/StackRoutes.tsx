@@ -7,6 +7,7 @@ import {RootStackParamList} from '../types/navigation';
 import VerifyOtp from '../app/verify-otp/VerifyOtp';
 import Home from '../app/tabs/tabcomponents/Home';
 import Settings from '../app/tabs/tabcomponents/Settings';
+import SelectLanguage from '../app/splash/SelectLanguage';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -24,6 +25,7 @@ const StackRoutes = () => {
       <Stack.Screen name="auth" component={Auth} />
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="select-language" component={SelectLanguage} />
     </Stack.Navigator>
   );
 };
