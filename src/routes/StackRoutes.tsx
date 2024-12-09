@@ -1,12 +1,12 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Tab from '../screens/tabs/Tab';
-import Splash from '../screens/splash/Splash';
-import Profile from '../screens/profile/Profile';
-import Auth from '../screens/auth/Auth';
+import Tab from '../app/tabs/Tab';
+import Splash from '../app/splash/Splash';
+import Profile from '../app/profile/Profile';
+import Auth from '../app/auth/Auth';
 import {RootStackParamList} from '../types/navigation';
-import VerifyOtp from '../screens/verify-otp/VerifyOtp';
-import Home from '../screens/tabs/tabcomponents/Home';
-import Settings from '../screens/tabs/tabcomponents/Settings';
+import VerifyOtp from '../app/verify-otp/VerifyOtp';
+import Home from '../app/tabs/tabcomponents/Home';
+import Settings from '../app/tabs/tabcomponents/Settings';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
