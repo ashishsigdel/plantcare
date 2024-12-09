@@ -64,11 +64,7 @@ const VerifyOtp = () => {
   const handleVerify = () => {
     console.log('OTP Entered:', otp.join(''));
     setOtpError('');
-    if (otp.join('') === '123456') {
-      navigation.navigate('tab');
-    } else {
-      setOtpError('Invalid OTP.');
-    }
+    navigation.navigate('tab');
   };
 
   return (
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
   otpContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '80%',
+    width: '95%',
     marginBottom: 5,
   },
   otpInput: {
