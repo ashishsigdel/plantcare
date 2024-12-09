@@ -10,9 +10,24 @@ import {
 import {Styles} from '../../../assets/colors/colors';
 import nepalflag from '../../../assets/images/flags/nepal.png';
 import usaflag from '../../../assets/images/flags/usa.png';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types/navigation';
 
 const SelectLanguage = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
   const [selectedLanguage, setSelectedLanguage] = useState('en');
+
+  const accessToken = '';
+
+  const handleContinue = async () => {
+    if (accessToken) {
+      navigation.navigate('tab');
+    } else {
+      navigation.navigate('auth');
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,7 +61,7 @@ const SelectLanguage = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.continueButton}>
+      <TouchableOpacity onPress={handleContinue} style={styles.continueButton}>
         <Text style={styles.continueText}>अगाडि बढ्नुहोस् / CONTINUE</Text>
       </TouchableOpacity>
     </SafeAreaView>
