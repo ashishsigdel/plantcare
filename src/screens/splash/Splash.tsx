@@ -10,7 +10,7 @@ import {Spinner} from '../../components/utils';
 const Splash = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'tab'>>();
-  const accessToken = '';
+  const accessToken = 'dfsdfs';
 
   useEffect(() => {
     setTimeout(() => {
