@@ -13,6 +13,7 @@ import {
 import React, {useState} from 'react';
 import {Login, Register, TopSection} from './';
 import {myColors} from '../../styles/colors';
+import {useTranslation} from 'react-i18next';
 
 const AuthComponent = () => {
   const [openTab, setOpenTab] = useState<'login' | 'register'>('login');

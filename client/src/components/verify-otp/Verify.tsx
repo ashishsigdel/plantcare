@@ -14,8 +14,10 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
 import {CustomButton} from '../../utils';
 import {myColors} from '../../styles/colors';
+import {useTranslation} from 'react-i18next';
 
 const Verify = () => {
+  const {t} = useTranslation('verify-otp');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'home'>>();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -74,10 +76,8 @@ const Verify = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Verify OTP</Text>
-        <Text style={styles.subtitle}>
-          Enter the 6-digit OTP sent to your mobile number
-        </Text>
+        <Text style={styles.title}>{t('title')}</Text>
+        <Text style={styles.subtitle}>{t('description')}</Text>
 
         <View style={styles.otpContainer}>
           {otp.map((digit, index) => (
@@ -93,22 +93,26 @@ const Verify = () => {
             />
           ))}
         </View>
-        {otpError && <Text style={styles.errorText}>{otpError}</Text>}
+        {otpError && <Text style={styles.errorText}>{t('invalid-otp')}</Text>}
         <View style={styles.resendContainer}>
-          <Text style={styles.resendText}>Does not received?</Text>
+          <Text style={styles.resendText}>{t('not-received')}</Text>
           {timer > 0 && (
-            <Text style={styles.timerText}>Resend in {timer}s</Text>
+            <Text style={styles.timerText}>
+              {t('resend-in')} {timer}s
+            </Text>
           )}
           <TouchableOpacity
             onPress={handleResend}
             disabled={timer > 0}
             style={timer > 0 ? styles.resendDisabled : styles.resendActive}>
-            {timer === 0 && <Text style={styles.timerTextZeor}>Resend</Text>}
+            {timer === 0 && (
+              <Text style={styles.timerTextZeor}>{t('resend')}</Text>
+            )}
           </TouchableOpacity>
         </View>
 
         <CustomButton
-          title="Verify"
+          title={t('verify')}
           handlePress={handleVerify}
           containerStyles={styles.verifyButton}
           textStyles={styles.verifyButtonText}

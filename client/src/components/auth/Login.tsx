@@ -6,24 +6,26 @@ import {RootStackParamList} from '../../types/navigation';
 import {CustomButton, FormField} from '../../utils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {myColors} from '../../styles/colors';
+import {useTranslation} from 'react-i18next';
 
 interface LoginProps {
   openRegister: () => void;
 }
 
 const Login = ({openRegister}: LoginProps) => {
+  const {t} = useTranslation('auth');
   const navigation =
     useNavigation<
       NativeStackNavigationProp<RootStackParamList, 'verify-otp'>
     >();
   return (
     <View style={styles.container}>
-      <Text style={styles.loginText}>Login with Phone</Text>
+      <Text style={styles.loginText}>{t('login')}</Text>
 
       <View style={styles.formContainer}>
         <FormField
-          title="Enter your mobile"
-          placeholder="+977 **********"
+          title={t('mobile')}
+          placeholder={t('mobile-placeholder')}
           inputMode="numeric"
         />
 
@@ -31,11 +33,11 @@ const Login = ({openRegister}: LoginProps) => {
           onPress={openRegister}
           style={{alignSelf: 'flex-end'}}
           activeOpacity={0.7}>
-          <Text style={styles.notRegister}>Not Registered?</Text>
+          <Text style={styles.notRegister}>{t('not-register')}</Text>
         </TouchableOpacity>
 
         <CustomButton
-          title="Send OTP"
+          title={t('send')}
           handlePress={() => navigation.navigate('verify-otp')}
           containerStyles={styles.buttonContainer}
           textStyles={styles.buttonText}
@@ -47,10 +49,8 @@ const Login = ({openRegister}: LoginProps) => {
       <View style={styles.helpContainer}>
         <Icon name="help-circle-outline" size={24} color={myColors.primary} />
         <View style={styles.helpTextContainer}>
-          <Text style={styles.helpTitle}>Help Center</Text>
-          <Text style={styles.helpSubtitle}>
-            Get solutions for your queries.
-          </Text>
+          <Text style={styles.helpTitle}>{t('help')}</Text>
+          <Text style={styles.helpSubtitle}>{t('help-description')}</Text>
         </View>
       </View>
     </View>

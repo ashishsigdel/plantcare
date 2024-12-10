@@ -1,22 +1,37 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import logo from '../assets/logo.png';
 import {myColors} from '../styles/colors';
 import {RootStackParamList} from '../types/navigation';
 import {Spinner} from '../utils';
+import {asyncStorage} from '../services/asyncStorage';
 const Splash = () => {
   const navigation =
     useNavigation<
       NativeStackNavigationProp<RootStackParamList, 'select-language'>
     >();
-  const accessToken = '';
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate('select-language');
-    }, 2000);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const checkUser = async () => {
+        const language: string = await asyncStorage.getItem('USER_LANGUAGE');
+        if (!language) {
+          navigation.navigate('select-language');
+          return;
+        }
+        const accessToken: string = await asyncStorage.getItem('accessToken');
+        if (accessToken) {
+          navigation.navigate('tabs');
+          return;
+        } else {
+          navigation.navigate('auth');
+          return;
+        }
+      };
+      checkUser();
+    }, []),
+  );
   return (
     <View style={styles.container}>
       <SafeAreaView>
