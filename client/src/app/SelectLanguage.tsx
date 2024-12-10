@@ -1,34 +1,20 @@
-import React, {useState} from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
   Image,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import {Styles} from '../../../assets/colors/colors';
-import nepalflag from '../../../assets/images/flags/nepal.png';
-import usaflag from '../../../assets/images/flags/usa.png';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../types/navigation';
+import React, {useState} from 'react';
+import usaflag from '../assets/flags/usa.png';
+import nepalflag from '../assets/flags/nepal.png';
+import {myColors} from '../styles/colors';
 
 const SelectLanguage = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
   const [selectedLanguage, setSelectedLanguage] = useState('en');
 
-  const accessToken = '';
-
-  const handleContinue = async () => {
-    if (accessToken) {
-      navigation.navigate('tab');
-    } else {
-      navigation.navigate('auth');
-    }
-  };
-
+  const handleContinue = () => {};
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>भाषा रोज्नुहोस् / Choose Language</Text>
@@ -121,7 +107,7 @@ const styles = StyleSheet.create({
     bottom: 30,
     left: 20,
     right: 20,
-    backgroundColor: Styles.primary,
+    backgroundColor: myColors.primary,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: 'center',
