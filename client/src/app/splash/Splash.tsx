@@ -11,10 +11,13 @@ const Splash = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'tab'>>();
   const accessToken = 'dfsdfs';
+  const language = '';
 
   useEffect(() => {
     setTimeout(() => {
-      if (accessToken) {
+      if (!language) {
+        navigation.navigate('select-language');
+      } else if (accessToken) {
         navigation.navigate('tab');
       } else {
         navigation.navigate('auth');
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     position: 'absolute',
-    bottom: 5,
+    bottom: 20,
   },
 });
 
