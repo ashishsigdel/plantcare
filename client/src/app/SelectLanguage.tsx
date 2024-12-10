@@ -10,11 +10,20 @@ import React, {useState} from 'react';
 import usaflag from '../assets/flags/usa.png';
 import nepalflag from '../assets/flags/nepal.png';
 import {myColors} from '../styles/colors';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigation';
 
 const SelectLanguage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const navigation =
+    useNavigation<
+      NativeStackNavigationProp<RootStackParamList, 'select-language'>
+    >();
 
-  const handleContinue = () => {};
+  const handleContinue = () => {
+    navigation.navigate('auth');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>भाषा रोज्नुहोस् / Choose Language</Text>

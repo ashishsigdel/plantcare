@@ -3,4 +3,7 @@ export type RootStackParamList = {
   splash: undefined;
   profile: undefined;
   auth: undefined;
+  'verify-otp': undefined;
+  home: undefined;
+  tabs: undefined;
 };
