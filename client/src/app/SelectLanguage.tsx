@@ -13,15 +13,20 @@ import {myColors} from '../styles/colors';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
+import {asyncStorage} from '../services/asyncStorage';
+import {useLocale} from '../context/TranslationProvider';
 
 const SelectLanguage = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const {t, currentLanguage, changeLanguage} = useLocale();
+  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'np'>('en');
   const navigation =
     useNavigation<
       NativeStackNavigationProp<RootStackParamList, 'select-language'>
     >();
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    await asyncStorage.setItem('USER_LANGUAGE', selectedLanguage);
+    changeLanguage(selectedLanguage);
     navigation.navigate('auth');
   };
   return (

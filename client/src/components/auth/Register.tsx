@@ -3,25 +3,27 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {CustomButton, FormField} from '../../utils';
 import {myColors} from '../../styles/colors';
+import {useTranslation} from 'react-i18next';
 
 interface RegisterProps {
   openLogin: () => void;
 }
 
 const Register = ({openLogin}: RegisterProps) => {
+  const {t} = useTranslation('auth');
   return (
     <View style={styles.container}>
-      <Text style={styles.loginText}>Register with Phone</Text>
+      <Text style={styles.loginText}>{t('register')}</Text>
 
       <View style={styles.formContainer}>
         <FormField
-          title="Enter your fullname"
-          placeholder="Your name"
+          title={t('fullname')}
+          placeholder={t('name-placeholder')}
           inputMode="text"
         />
         <FormField
-          title="Enter your mobile"
-          placeholder="+977 **********"
+          title={t('mobile')}
+          placeholder={t('mobile-placeholder')}
           inputMode="numeric"
         />
 
@@ -29,11 +31,11 @@ const Register = ({openLogin}: RegisterProps) => {
           onPress={openLogin}
           style={{alignSelf: 'flex-end'}}
           activeOpacity={0.7}>
-          <Text style={styles.notRegister}>Already Registered?</Text>
+          <Text style={styles.notRegister}>{t('already-register')}</Text>
         </TouchableOpacity>
 
         <CustomButton
-          title="Send OTP"
+          title={t('send')}
           handlePress={() => console.log('Button Pressed')}
           containerStyles={styles.buttonContainer}
           textStyles={styles.buttonText}

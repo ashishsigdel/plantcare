@@ -6,24 +6,27 @@ import SelectLanguage from './src/app/SelectLanguage';
 import Auth from './src/app/Auth';
 import VerifyOtp from './src/app/VerifyOtp';
 import Tabs from './src/app/Tabs';
+import {TranslationProvider} from './src/context/TranslationProvider';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-        initialRouteName="splash">
-        <Stack.Screen name="splash" component={Splash} />
-        <Stack.Screen name="select-language" component={SelectLanguage} />
-        <Stack.Screen name="auth" component={Auth} />
-        <Stack.Screen name="verify-otp" component={VerifyOtp} />
-        <Stack.Screen name="tabs" component={Tabs} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <TranslationProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName="splash">
+          <Stack.Screen name="splash" component={Splash} />
+          <Stack.Screen name="select-language" component={SelectLanguage} />
+          <Stack.Screen name="auth" component={Auth} />
+          <Stack.Screen name="verify-otp" component={VerifyOtp} />
+          <Stack.Screen name="tabs" component={Tabs} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </TranslationProvider>
   );
 };
 
