@@ -15,6 +15,7 @@ import {RootStackParamList} from '../../types/navigation';
 import {CustomButton} from '../../utils';
 import {myColors} from '../../styles/colors';
 import {useTranslation} from 'react-i18next';
+import {asyncStorage} from '../../services/asyncStorage';
 
 const Verify = () => {
   const {t} = useTranslation('verify-otp');
@@ -63,10 +64,11 @@ const Verify = () => {
     console.log('Resend OTP');
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     console.log('OTP Entered:', otp.join(''));
     setOtpError('');
     if (otp.join('') === '123456') {
+      await asyncStorage.setItem('accessToken', 'hdfkdjfkdjfdjf');
       navigation.navigate('tabs');
     } else {
       setOtpError('Invalid OTP.');

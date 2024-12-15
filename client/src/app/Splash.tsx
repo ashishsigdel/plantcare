@@ -14,22 +14,24 @@ const Splash = () => {
     >();
   useFocusEffect(
     useCallback(() => {
-      const checkUser = async () => {
-        const language: string = await asyncStorage.getItem('USER_LANGUAGE');
-        if (!language) {
-          navigation.navigate('select-language');
-          return;
-        }
-        const accessToken: string = await asyncStorage.getItem('accessToken');
-        if (accessToken) {
-          navigation.navigate('tabs');
-          return;
-        } else {
-          navigation.navigate('auth');
-          return;
-        }
-      };
-      checkUser();
+      setTimeout(() => {
+        const checkUser = async () => {
+          const language: string = await asyncStorage.getItem('USER_LANGUAGE');
+          if (!language) {
+            navigation.navigate('select-language');
+            return;
+          }
+          const accessToken: string = await asyncStorage.getItem('accessToken');
+          if (accessToken) {
+            navigation.navigate('tabs');
+            return;
+          } else {
+            navigation.navigate('auth');
+            return;
+          }
+        };
+        checkUser();
+      }, 1000);
     }, []),
   );
   return (
