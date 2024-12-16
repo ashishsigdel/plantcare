@@ -1,10 +1,12 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {HomeContent, HomeTop} from '../../components/home';
 
 const Home = () => {
   return (
     <View>
-      <Text>Home</Text>
+      <HomeTop />
+      <HomeContent />
     </View>
   );
 };

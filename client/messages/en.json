@@ -21,5 +21,9 @@
     "resend-in": "Resend in",
     "verify": "Verify OTP",
     "invalid-otp": "Invalid OTP"
+  },
+  "toggle-language": {
+    "lang": "EN",
+    "choose": "Choose Language"
   }
 }
