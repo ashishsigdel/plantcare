@@ -49,7 +49,7 @@ const CustomCameraButton: React.FC = () => {
   return (
     <TouchableOpacity
       style={styles.customCameraButtonContainer}
-      onPress={() => navigation.navigate('camera')} // Navigate to Camera
+      onPress={() => navigation.navigate('camera')}
       activeOpacity={0.8}>
       <View style={styles.customCameraButtonInner}>
         <Icon name="camera" size={30} color="white" />
@@ -58,7 +58,6 @@ const CustomCameraButton: React.FC = () => {
   );
 };
 
-// Main Tab Navigator Component
 const Tab: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
@@ -109,11 +108,11 @@ const Tab: React.FC = () => {
 
         <TabBar.Screen
           name="Camera"
-          component={() => null} // Do not render Camera as a tab
           options={{
-            tabBarButton: () => <CustomCameraButton />, // Use custom button
-          }}
-        />
+            tabBarButton: () => <CustomCameraButton />,
+          }}>
+          {() => null}
+        </TabBar.Screen>
 
         <TabBar.Screen
           name="History"

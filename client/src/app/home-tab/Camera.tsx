@@ -1,11 +1,12 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
+import {CameraTab} from '../../components/camera';
 
 const Camera = () => {
   return (
-    <View>
-      <Text>Camera</Text>
-    </View>
+    <>
+      <CameraTab />
+    </>
   );
 };
 

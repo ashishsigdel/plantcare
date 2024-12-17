@@ -8,6 +8,7 @@ import VerifyOtp from './src/app/VerifyOtp';
 import Tabs from './src/app/Tabs';
 import {TranslationProvider} from './src/context/TranslationProvider';
 import Camera from './src/app/home-tab/Camera';
+import CameraGuide from './src/app/CameraGuide';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ const App = () => {
           <Stack.Screen name="verify-otp" component={VerifyOtp} />
           <Stack.Screen name="tabs" component={Tabs} />
           <Stack.Screen name="camera" component={Camera} />
+          <Stack.Screen name="camera-guide" component={CameraGuide} />
         </Stack.Navigator>
       </NavigationContainer>
     </TranslationProvider>
