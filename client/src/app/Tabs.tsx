@@ -43,14 +43,13 @@ const TabIcon: React.FC<TabBarProps> = ({icon, name, focused}) => {
   );
 };
 
-// Custom Camera Button for Camera Tab
-const CustomCameraButton: React.FC<{
-  onPress?: (event: GestureResponderEvent) => void;
-}> = ({onPress}) => {
+const CustomCameraButton: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <TouchableOpacity
       style={styles.customCameraButtonContainer}
-      onPress={onPress}
+      onPress={() => navigation.navigate('camera')} // Navigate to Camera
       activeOpacity={0.8}>
       <View style={styles.customCameraButtonInner}>
         <Icon name="camera" size={30} color="white" />
@@ -110,11 +109,9 @@ const Tab: React.FC = () => {
 
         <TabBar.Screen
           name="Camera"
-          component={Camera}
+          component={() => null} // Do not render Camera as a tab
           options={{
-            tabBarButton: props => (
-              <CustomCameraButton onPress={props.onPress} />
-            ),
+            tabBarButton: () => <CustomCameraButton />, // Use custom button
           }}
         />
 

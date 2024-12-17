@@ -6,4 +6,5 @@ export type RootStackParamList = {
   'verify-otp': undefined;
   home: undefined;
   tabs: undefined;
+  camera: undefined;
 };
