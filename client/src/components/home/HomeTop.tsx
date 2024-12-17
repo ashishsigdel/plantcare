@@ -12,7 +12,8 @@ const HomeTop = () => {
           style={{
             fontSize: 20,
             color: myColors.primary,
-            fontWeight: 500,
+            fontWeight: 600,
+            letterSpacing: 2,
           }}>
           Plant
         </Text>
@@ -20,7 +21,8 @@ const HomeTop = () => {
           style={{
             fontSize: 20,
             color: myColors.gray,
-            fontWeight: 500,
+            fontWeight: 600,
+            letterSpacing: 2,
           }}>
           Care
         </Text>
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingVertical: 10,
     backgroundColor: myColors.white,
   },
   titleContainer: {

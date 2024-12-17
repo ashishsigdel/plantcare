@@ -1,25 +1,32 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {HomeContent, HomeTop} from '../../components/home';
+import {myColors} from '../../styles/colors';
 
 const Home = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <View
+      style={{
+        backgroundColor: myColors.white,
+      }}>
+      <SafeAreaView
+        style={{
+          backgroundColor: myColors.white,
+        }}>
         <HomeTop />
-        <HomeContent />
-      </ScrollView>
-    </SafeAreaView>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <HomeContent />
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 
 export default Home;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   scrollContainer: {
-    paddingBottom: 80,
+    backgroundColor: myColors.lightwhite,
+    paddingBottom: 120,
   },
 });

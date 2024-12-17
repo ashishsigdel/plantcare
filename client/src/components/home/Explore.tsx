@@ -2,6 +2,8 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {myColors} from '../../styles/colors';
 import scanPlant from '../../assets/icons/iris-scan.png';
+import history from '../../assets/icons/history.png';
+import timeclock from '../../assets/icons/timeclock.png';
 import Icon from 'react-native-vector-icons/Feather';
 
 const ExploreBox = ({
@@ -38,8 +40,18 @@ const Explore = () => {
         />
       </View>
       <View style={styles.exploreGrid}>
-        <ExploreBox title1="Plant" title2="History" color="#0075A2" />
-        <ExploreBox title1="Browse " title2="Diseases" color="#5CA4A9" />
+        <ExploreBox
+          title1="Plant"
+          title2="History"
+          color="#0075A2"
+          icon={history}
+        />
+        <ExploreBox
+          title1="Browse "
+          title2="Diseases"
+          color="#5CA4A9"
+          icon={timeclock}
+        />
       </View>
     </View>
   );

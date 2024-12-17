@@ -13,7 +13,6 @@ const ToggleLanguage = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const {t} = useTranslation('toggle-language');
   const {currentLanguage, changeLanguage} = useLocale();
-  console.log(currentLanguage);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -133,6 +132,7 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: myColors.white,
     padding: 20,
+    paddingBottom: 50,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     alignItems: 'center',

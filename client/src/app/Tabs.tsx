@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,12 +6,18 @@ import {
   TouchableOpacity,
   GestureResponderEvent,
   TouchableOpacityProps,
+  StatusBar,
 } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Home from './home-tab/Home';
 import Settings from './home-tab/Settings';
 import {myColors} from '../styles/colors';
+import Camera from './home-tab/Camera';
+import {asyncStorage} from '../services/asyncStorage';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../types/navigation';
 
 // Create Bottom Tab Navigator
 const TabBar = createBottomTabNavigator();
@@ -55,69 +61,84 @@ const CustomCameraButton: React.FC<{
 
 // Main Tab Navigator Component
 const Tab: React.FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
+  useEffect(() => {
+    const checkAuth = async () => {
+      const accessToken = await asyncStorage.getItem('accessToken');
+      if (!accessToken) {
+        navigation.navigate('auth');
+      }
+    };
+  }, []);
   return (
-    <TabBar.Navigator
-      screenOptions={{
-        tabBarShowLabel: false,
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: myColors.white,
-          height: 65,
-        },
-        tabBarButton: props => (
-          <TouchableOpacity
-            {...(props as TouchableOpacityProps)}
-            activeOpacity={1}>
-            {props.children}
-          </TouchableOpacity>
-        ),
-      }}>
-      <TabBar.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <TabIcon icon="home" name="Home" focused={focused} />
+    <>
+      <TabBar.Navigator
+        screenOptions={{
+          tabBarShowLabel: false,
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: myColors.white,
+            height: 65,
+          },
+          tabBarButton: props => (
+            <TouchableOpacity
+              {...(props as TouchableOpacityProps)}
+              activeOpacity={1}>
+              {props.children}
+            </TouchableOpacity>
           ),
-        }}
-      />
-      <TabBar.Screen
-        name="Insights"
-        component={Settings}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <TabIcon icon="stats-chart" name="Insights" focused={focused} />
-          ),
-        }}
-      />
+        }}>
+        <TabBar.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <TabIcon icon="home" name="Home" focused={focused} />
+            ),
+          }}
+        />
+        <TabBar.Screen
+          name="Insights"
+          component={Settings}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <TabIcon icon="stats-chart" name="Insights" focused={focused} />
+            ),
+          }}
+        />
 
-      <TabBar.Screen
-        name="Camera"
-        component={Home} // Replace with your Camera screen
-        options={{
-          tabBarButton: props => <CustomCameraButton onPress={props.onPress} />,
-        }}
-      />
+        <TabBar.Screen
+          name="Camera"
+          component={Camera}
+          options={{
+            tabBarButton: props => (
+              <CustomCameraButton onPress={props.onPress} />
+            ),
+          }}
+        />
 
-      <TabBar.Screen
-        name="History"
-        component={Home}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <TabIcon icon="document" name="History" focused={focused} />
-          ),
-        }}
-      />
-      <TabBar.Screen
-        name="Settings"
-        component={Settings}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <TabIcon icon="cog" name="Settings" focused={focused} />
-          ),
-        }}
-      />
-    </TabBar.Navigator>
+        <TabBar.Screen
+          name="History"
+          component={Home}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <TabIcon icon="document" name="History" focused={focused} />
+            ),
+          }}
+        />
+        <TabBar.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            tabBarIcon: ({focused}) => (
+              <TabIcon icon="cog" name="Settings" focused={focused} />
+            ),
+          }}
+        />
+      </TabBar.Navigator>
+      <StatusBar barStyle={'dark-content'} />
+    </>
   );
 };
 
