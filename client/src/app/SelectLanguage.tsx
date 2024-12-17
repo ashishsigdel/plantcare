@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     marginBottom: 30,
+    paddingHorizontal: 20,
   },
   languageCard: {
     flexDirection: 'row',
