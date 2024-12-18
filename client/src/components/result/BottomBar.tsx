@@ -29,6 +29,19 @@ const BottomBar = () => {
           alignItems: 'center',
         }}>
         <TouchableOpacity
+          onPress={() => navigation.navigate('tabs')}
+          style={{
+            alignItems: 'center',
+            backgroundColor: myColors.primary,
+            padding: 5,
+            borderRadius: 999,
+            width: 40,
+            height: 40,
+            justifyContent: 'center',
+          }}>
+          <Icon name="home" size={24} color={myColors.white} />
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => navigation.navigate('camera')}
           style={{
             alignItems: 'center',

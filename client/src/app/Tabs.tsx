@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,7 +15,7 @@ import Settings from './home-tab/Settings';
 import {myColors} from '../styles/colors';
 import Camera from './home-tab/Camera';
 import {asyncStorage} from '../services/asyncStorage';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 import Insights from './home-tab/Insights';
@@ -63,14 +63,17 @@ const CustomCameraButton: React.FC = () => {
 const Tab: React.FC = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
-  useEffect(() => {
-    const checkAuth = async () => {
-      const accessToken = await asyncStorage.getItem('accessToken');
-      if (!accessToken) {
-        navigation.navigate('auth');
-      }
-    };
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const checkAuth = async () => {
+        const accessToken = await asyncStorage.getItem('accessToken');
+        if (!accessToken) {
+          navigation.navigate('auth');
+        }
+      };
+      checkAuth();
+    }, []),
+  );
   return (
     <>
       <TabBar.Navigator
