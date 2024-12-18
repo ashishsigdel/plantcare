@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import {
   Camera,
-  CameraPosition,
   useCameraDevice,
   useCameraPermission,
   PhotoFile,
@@ -22,6 +21,12 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
 import {myColors} from '../../styles/colors';
 import {Linking} from 'react-native';
+import {
+  launchImageLibrary,
+  ImageLibraryOptions,
+} from 'react-native-image-picker';
+import {asyncStorage} from '../../services/asyncStorage';
+import {NoCameraFound} from './';
 
 const CameraTab = () => {
   const navigation =
@@ -29,7 +34,7 @@ const CameraTab = () => {
 
   const [isBackCamera, setIsBackCamera] = useState(true);
   const [flashMode, setFlashMode] = useState<'off' | 'on' | 'auto'>('off');
-  const [photo, setPhoto] = useState<PhotoFile | null>(null);
+  const [photo, setPhoto] = useState<PhotoFile | {uri: string} | null>(null);
   const [permissionStatus, setPermissionStatus] = useState<
     'not-determined' | 'denied' | 'granted'
   >('not-determined');
@@ -52,6 +57,19 @@ const CameraTab = () => {
 
     checkPermission();
   }, []);
+
+  useEffect(() => {
+    if (photo) {
+      const photoUri = 'uri' in photo ? photo.uri : photo.path;
+
+      const photoAction = async () => {
+        await asyncStorage.setItem('CURRENTPHOTO', photoUri);
+        navigation.navigate('analysis');
+      };
+
+      photoAction();
+    }
+  }, [photo, navigation]);
 
   const handlePermissionDenied = () => {
     Alert.alert(
@@ -77,16 +95,9 @@ const CameraTab = () => {
   }
 
   if (permissionStatus === 'not-determined') {
-    <View style={styles.containerSpinner}>
-      return <Spinner />
-    </View>;
-  }
-
-  if (!device) {
     return (
       <View style={styles.containerSpinner}>
-        <Icon name="alert" size={50} color={myColors.red} />
-        <Text style={styles.errorText}>No camera device found!</Text>
+        <Spinner />
       </View>
     );
   }
@@ -120,6 +131,29 @@ const CameraTab = () => {
     }
   };
 
+  const chooseFromGallery = () => {
+    const options: ImageLibraryOptions = {
+      mediaType: 'photo',
+      quality: 0.5,
+    };
+
+    launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const selectedPhoto = response.assets ? response.assets[0] : null;
+        if (selectedPhoto && selectedPhoto.uri) {
+          setPhoto({uri: selectedPhoto.uri});
+        }
+      }
+    });
+  };
+
+  if (!device) {
+    return <NoCameraFound chooseFromGallery={chooseFromGallery} />;
+  }
   return (
     <>
       <View style={styles.container}>
@@ -144,7 +178,6 @@ const CameraTab = () => {
           </TouchableOpacity>
 
           <View style={styles.rightControl}>
-            {/* Toggle Camera */}
             <TouchableOpacity onPress={toggleCamera}>
               <Icon name="camera-reverse" size={30} color={myColors.white} />
             </TouchableOpacity>
@@ -172,7 +205,7 @@ const CameraTab = () => {
                     top: 15,
                     right: 0,
                     color: myColors.white,
-                    fontWeight: 600,
+                    fontWeight: '600',
                   }}>
                   A
                 </Text>
@@ -183,7 +216,7 @@ const CameraTab = () => {
 
         <View style={styles.bottomControlPanel}>
           <View style={styles.bottomBar}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={chooseFromGallery}>
               <Icon name="image" size={32} color={myColors.primary} />
             </TouchableOpacity>
 
@@ -312,13 +345,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: myColors.primary,
     opacity: 0.8,
-  },
-  capturedImage: {
-    position: 'absolute',
-    bottom: 150,
-    width: 100,
-    height: 100,
-    borderRadius: 10,
   },
   errorText: {
     color: myColors.red,

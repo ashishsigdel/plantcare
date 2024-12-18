@@ -5,4 +5,5 @@ export const myColors = {
   black: 'black',
   lightwhite: '#F2EFEA',
   red: 'red',
+  blue: 'blue',
 };
