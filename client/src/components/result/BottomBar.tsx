@@ -4,8 +4,15 @@ import {myColors} from '../../styles/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native';
 import {CustomButton} from '../../utils';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types/navigation';
 
 const BottomBar = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const savedForDiagnosis = () => {};
   return (
     <SafeAreaView
       style={{
@@ -22,7 +29,7 @@ const BottomBar = () => {
           alignItems: 'center',
         }}>
         <TouchableOpacity
-          onPress={() => null}
+          onPress={() => navigation.navigate('camera')}
           style={{
             alignItems: 'center',
             backgroundColor: myColors.primary,
@@ -36,25 +43,12 @@ const BottomBar = () => {
         </TouchableOpacity>
         <CustomButton
           title={'Save for Diagnosis'}
-          handlePress={() => null}
+          handlePress={() => savedForDiagnosis}
           containerStyles={styles.buttonContainer}
           textStyles={styles.buttonText}
           isLoading={false}
           iconname="bookmark"
         />
-        <TouchableOpacity
-          onPress={() => null}
-          style={{
-            alignItems: 'center',
-            backgroundColor: myColors.primary,
-            padding: 5,
-            borderRadius: 999,
-            width: 40,
-            height: 40,
-            justifyContent: 'center',
-          }}>
-          <Icon name="arrow-redo" size={24} color={myColors.white} />
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
