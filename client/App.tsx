@@ -9,6 +9,10 @@ import Tabs from './src/app/Tabs';
 import {TranslationProvider} from './src/context/TranslationProvider';
 import Camera from './src/app/home-tab/Camera';
 import CameraGuide from './src/app/CameraGuide';
+import Analysis from './src/app/Analysis';
+import History from './src/app/home-tab/History';
+import Insights from './src/app/home-tab/Insights';
+import ResultPage from './src/app/ResultPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +32,10 @@ const App = () => {
           <Stack.Screen name="tabs" component={Tabs} />
           <Stack.Screen name="camera" component={Camera} />
           <Stack.Screen name="camera-guide" component={CameraGuide} />
+          <Stack.Screen name="analysis" component={Analysis} />
+          <Stack.Screen name="history" component={History} />
+          <Stack.Screen name="insights" component={Insights} />
+          <Stack.Screen name="result" component={ResultPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </TranslationProvider>

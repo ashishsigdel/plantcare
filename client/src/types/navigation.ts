@@ -8,4 +8,6 @@ export type RootStackParamList = {
   tabs: undefined;
   camera: undefined;
   'camera-guide': undefined;
+  analysis: undefined;
+  result: undefined;
 };

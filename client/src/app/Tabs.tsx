@@ -18,6 +18,8 @@ import {asyncStorage} from '../services/asyncStorage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
+import Insights from './home-tab/Insights';
+import History from './home-tab/History';
 
 // Create Bottom Tab Navigator
 const TabBar = createBottomTabNavigator();
@@ -98,7 +100,7 @@ const Tab: React.FC = () => {
         />
         <TabBar.Screen
           name="Insights"
-          component={Settings}
+          component={Insights}
           options={{
             tabBarIcon: ({focused}) => (
               <TabIcon icon="stats-chart" name="Insights" focused={focused} />
@@ -116,7 +118,7 @@ const Tab: React.FC = () => {
 
         <TabBar.Screen
           name="History"
-          component={Home}
+          component={History}
           options={{
             tabBarIcon: ({focused}) => (
               <TabIcon icon="document" name="History" focused={focused} />
