@@ -14,56 +14,61 @@ const BottomBar = () => {
 
   const savedForDiagnosis = () => {};
   return (
-    <SafeAreaView
+    <View
       style={{
         position: 'absolute',
-        bottom: 10,
+        bottom: 0,
         width: '100%',
+        backgroundColor: myColors.lightwhite,
+        paddingTop: 2,
       }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          columnGap: 10,
-          paddingHorizontal: 15,
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('tabs')}
+      <SafeAreaView>
+        <View
           style={{
+            flexDirection: 'row',
+            columnGap: 10,
+            paddingHorizontal: 15,
+            paddingVertical: 7,
+            justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: myColors.primary,
-            padding: 5,
-            borderRadius: 999,
-            width: 40,
-            height: 40,
-            justifyContent: 'center',
           }}>
-          <Icon name="home" size={24} color={myColors.white} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('camera')}
-          style={{
-            alignItems: 'center',
-            backgroundColor: myColors.primary,
-            padding: 5,
-            borderRadius: 999,
-            width: 40,
-            height: 40,
-            justifyContent: 'center',
-          }}>
-          <Icon name="camera" size={24} color={myColors.white} />
-        </TouchableOpacity>
-        <CustomButton
-          title={'Save for Diagnosis'}
-          handlePress={() => savedForDiagnosis}
-          containerStyles={styles.buttonContainer}
-          textStyles={styles.buttonText}
-          isLoading={false}
-          iconname="bookmark"
-        />
-      </View>
-    </SafeAreaView>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('tabs')}
+            style={{
+              alignItems: 'center',
+              backgroundColor: myColors.primary,
+              padding: 5,
+              borderRadius: 999,
+              width: 40,
+              height: 40,
+              justifyContent: 'center',
+            }}>
+            <Icon name="home" size={24} color={myColors.white} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('camera')}
+            style={{
+              alignItems: 'center',
+              backgroundColor: myColors.primary,
+              padding: 5,
+              borderRadius: 999,
+              width: 40,
+              height: 40,
+              justifyContent: 'center',
+            }}>
+            <Icon name="camera" size={24} color={myColors.white} />
+          </TouchableOpacity>
+          <CustomButton
+            title={'Save for Diagnosis'}
+            handlePress={() => savedForDiagnosis}
+            containerStyles={styles.buttonContainer}
+            textStyles={styles.buttonText}
+            isLoading={false}
+            iconname="bookmark"
+          />
+        </View>
+      </SafeAreaView>
+    </View>
   );
 };
 

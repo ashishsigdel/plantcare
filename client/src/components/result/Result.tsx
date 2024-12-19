@@ -193,7 +193,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   content: {
-    padding: 10,
+    paddingTop: 10,
+    paddingHorizontal: 10,
   },
   plantContainer: {
     backgroundColor: myColors.white,
