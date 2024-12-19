@@ -4,6 +4,7 @@ import {myColors} from '../../styles/colors';
 import Icon from 'react-native-vector-icons/Feather';
 import Cauliflower from '../../assets/icons/cauliflower.png';
 import Orange from '../../assets/icons/orange.png';
+import {useTranslation} from 'react-i18next';
 
 const RecentScanCard = ({
   icon = Cauliflower,
@@ -29,9 +30,10 @@ const RecentScanCard = ({
 };
 
 const RecentScan = () => {
+  const {t} = useTranslation('home');
   return (
     <View style={styles.recentScanSection}>
-      <Text style={styles.recentScanTitle}>Recent Scans </Text>
+      <Text style={styles.recentScanTitle}>{t('recent-scan')}</Text>
       <View style={styles.recentScanGrid}>
         <RecentScanCard
           title1="Cauliflower"

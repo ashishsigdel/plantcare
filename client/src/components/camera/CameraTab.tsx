@@ -38,7 +38,7 @@ const CameraTab = () => {
   const [permissionStatus, setPermissionStatus] = useState<
     'not-determined' | 'denied' | 'granted'
   >('not-determined');
-
+  const [cameraActive, setCameraActive] = useState(true);
   const device = useCameraDevice(isBackCamera ? 'back' : 'front');
   const {hasPermission, requestPermission} = useCameraPermission();
   const cameraRef = useRef<Camera>(null);
@@ -57,6 +57,27 @@ const CameraTab = () => {
 
     checkPermission();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setCameraActive(false); // Turn off the camera when the page is blurred
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
+
+  // Re-activate the camera when returning to the tab
+  useEffect(() => {
+    const focusListener = navigation.addListener('focus', () => {
+      setCameraActive(true);
+    });
+
+    return () => {
+      focusListener();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     if (photo) {
@@ -161,7 +182,7 @@ const CameraTab = () => {
           ref={cameraRef}
           style={styles.cameraPreview}
           device={device}
-          isActive={true}
+          isActive={cameraActive}
           photo={true}
         />
 

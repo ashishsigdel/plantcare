@@ -5,6 +5,7 @@ import scanPlant from '../../assets/icons/iris-scan.png';
 import history from '../../assets/icons/history.png';
 import timeclock from '../../assets/icons/timeclock.png';
 import Icon from 'react-native-vector-icons/Feather';
+import {useTranslation} from 'react-i18next';
 
 const ExploreBox = ({
   icon = scanPlant,
@@ -30,25 +31,27 @@ const ExploreBox = ({
 };
 
 const Explore = () => {
+  const {t} = useTranslation('home');
+
   return (
     <View style={styles.exploreSection}>
       <Text style={styles.exploreTitle}>Explore Plantcare</Text>
       <View style={styles.exploreGrid}>
         <ExploreBox
-          title1="Quick Plant Scan"
-          title2="Detect diseases instantly"
+          title1={t('quick-scan')}
+          title2={t('quick-scan-description')}
         />
       </View>
       <View style={styles.exploreGrid}>
         <ExploreBox
-          title1="Plant"
-          title2="History"
+          title1={t('plant')}
+          title2={t('history')}
           color="#0075A2"
           icon={history}
         />
         <ExploreBox
-          title1="Browse "
-          title2="Diseases"
+          title1={t('browse')}
+          title2={t('disease')}
           color="#5CA4A9"
           icon={timeclock}
         />

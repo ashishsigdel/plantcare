@@ -26,6 +26,19 @@
     "lang": "EN",
     "choose": "Choose Language"
   },
+  "home": {
+    "search": "Search Anything...",
+    "explore": "Explore PlantCare",
+    "quick-scan": "Quick Plant Scan",
+    "quick-scan-description": "Detect diseases instantly",
+    "plant": "Plant",
+    "history": "History",
+    "browse": "Browse",
+    "disease": "Diseases",
+    "recent-scan": "Recent Scans",
+    "help": "Looking for additional assistance for your plant?",
+    "help-description": "Received accurate solutions to address your issuses."
+  },
   "settings": {
     "title": "Settings",
     "account": "Account",

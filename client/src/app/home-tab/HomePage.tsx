@@ -1,15 +1,9 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import React from 'react';
-import {Settings} from '../../components/settings';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {Home} from '../../components/home';
 import {myColors} from '../../styles/colors';
 
-const SettingsPage = () => {
+const HomePage = () => {
   return (
     <View
       style={{
@@ -20,13 +14,18 @@ const SettingsPage = () => {
           style={{
             backgroundColor: myColors.lightwhite,
           }}>
-          <Settings />
+          <Home />
         </View>
       </SafeAreaView>
     </View>
   );
 };
 
-export default SettingsPage;
+export default HomePage;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: myColors.lightwhite,
+    paddingBottom: 120,
+  },
+});

@@ -1,6 +1,5 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import DefaultImage from '../../assets/defaultProfile.jpg';
 import {myColors} from '../../styles/colors';
 import {ToggleLanguage} from '../../utils';
 
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 5,
     backgroundColor: myColors.white,
   },
   titleContainer: {

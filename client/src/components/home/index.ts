@@ -1,2 +1,3 @@
 export {default as HomeTop} from './HomeTop';
-export {default as HomeContent} from './HomeContent';
+export {default as Home} from './Home';
+export {default as HomeHelp} from './HomeHelp';
