@@ -67,12 +67,8 @@ const Verify = () => {
   const handleVerify = async () => {
     console.log('OTP Entered:', otp.join(''));
     setOtpError('');
-    if (otp.join('') === '123456') {
-      await asyncStorage.setItem('accessToken', 'hdfkdjfkdjfdjf');
-      navigation.navigate('tabs');
-    } else {
-      setOtpError('Invalid OTP.');
-    }
+    await asyncStorage.setItem('accessToken', 'hdfkdjfkdjfdjf');
+    navigation.navigate('tabs');
   };
 
   return (

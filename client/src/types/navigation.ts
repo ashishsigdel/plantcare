@@ -10,4 +10,5 @@ export type RootStackParamList = {
   'camera-guide': undefined;
   analysis: undefined;
   result: undefined;
+  settings: undefined;
 };

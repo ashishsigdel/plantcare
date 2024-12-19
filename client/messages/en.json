@@ -25,5 +25,26 @@
   "toggle-language": {
     "lang": "EN",
     "choose": "Choose Language"
+  },
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "profile": "Profile",
+    "logout": "Log Out",
+    "general": "General",
+    "language": "Set Language",
+    "allow": "Allow to Access",
+    "cache": "Clear Cache",
+    "auto-save": "Auto Save Photos to Album",
+    "support": "Support",
+    "help": "Help Center",
+    "contact": "Contact Us",
+    "rate": "Rate Us",
+    "about": "About",
+    "about-us": "About PlantCare",
+    "share": "Tell Friends",
+    "legal": "Legal",
+    "privacy": "Privacy and Policy",
+    "terms": "Terms and Conditions"
   }
 }
