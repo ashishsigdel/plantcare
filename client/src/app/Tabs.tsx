@@ -10,7 +10,7 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Home from './home-tab/Home';
+import HomePage from './home-tab/HomePage';
 import Insights from './home-tab/Insights';
 import Camera from './home-tab/Camera';
 import History from './home-tab/History';
@@ -72,7 +72,7 @@ const TabNavigator: React.FC = () => {
       }}>
       <TabBar.Screen
         name="Home"
-        component={Home}
+        component={HomePage}
         options={{
           tabBarIcon: ({focused}) => (
             <TabIcon icon="home" name="Home" focused={focused} />

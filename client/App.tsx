@@ -41,7 +41,7 @@ const App = () => {
           </Stack.Navigator>
         </NavigationContainer>
       </TranslationProvider>
-      <StatusBar barStyle={'light-content'} />
+      <StatusBar barStyle={'dark-content'} />
     </>
   );
 };

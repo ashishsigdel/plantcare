@@ -16,6 +16,7 @@ import {resultData} from '../../data/result';
 import cauliflowr from '../../assets/icons/cauliflower.png';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlantCare from '../../assets/icons/plantcare.png';
+import {HomeHelp} from '../home';
 
 const Result = () => {
   const handlePlantCarePress = () => {
@@ -165,31 +166,7 @@ const Result = () => {
               </View>
               <Text style={styles.overview}>{resultData.disease.medical}</Text>
             </View>
-            <TouchableOpacity
-              style={styles.plantCareContainer}
-              onPress={handlePlantCarePress}>
-              <Image
-                source={PlantCare}
-                style={styles.plantCareImage}
-                resizeMode="contain"
-              />
-
-              <View style={styles.plantCareTextContainer}>
-                <Text style={styles.plantCareTitle}>
-                  Looking for additional assistance for your plant?
-                </Text>
-                <Text style={styles.plantCareSubtitle}>
-                  Receive accurate solutions to address any issue.
-                </Text>
-              </View>
-
-              <Icon
-                name="chevron-forward"
-                size={24}
-                color={myColors.gray}
-                style={styles.plantCareIcon}
-              />
-            </TouchableOpacity>
+            <HomeHelp />
           </View>
         </ScrollView>
         <BottomBar />
@@ -286,37 +263,5 @@ const styles = StyleSheet.create({
     color: myColors['gray-hard'],
     marginBottom: 5,
     fontWeight: '500',
-  },
-  plantCareContainer: {
-    backgroundColor: myColors.white,
-    padding: 16,
-    marginTop: 20,
-    borderRadius: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'relative',
-    top: -30,
-    marginBottom: 60,
-  },
-  plantCareImage: {
-    width: 80,
-    height: 80,
-    marginRight: 16,
-  },
-  plantCareTextContainer: {
-    flex: 1,
-    marginRight: 16,
-  },
-  plantCareTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  plantCareSubtitle: {
-    fontSize: 14,
-    color: myColors.gray,
-  },
-  plantCareIcon: {
-    alignSelf: 'center',
   },
 });
