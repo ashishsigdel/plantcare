@@ -13,6 +13,7 @@ import Analysis from './src/app/Analysis';
 import History from './src/app/home-tab/History';
 import Insights from './src/app/home-tab/Insights';
 import ResultPage from './src/app/ResultPage';
+import SettingsPage from './src/app/home-tab/SettingsPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +34,7 @@ const App = () => {
           <Stack.Screen name="camera" component={Camera} />
           <Stack.Screen name="camera-guide" component={CameraGuide} />
           <Stack.Screen name="analysis" component={Analysis} />
-          <Stack.Screen name="history" component={History} />
+          <Stack.Screen name="settings" component={SettingsPage} />
           <Stack.Screen name="insights" component={Insights} />
           <Stack.Screen name="result" component={ResultPage} />
         </Stack.Navigator>
