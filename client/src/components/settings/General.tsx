@@ -1,26 +1,30 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
 import {myColors} from '../../styles/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
+import {LanguageToggle} from '../modal';
+import {useTranslation} from 'react-i18next';
 
 const General = () => {
+  const {t} = useTranslation('settings');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
 
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem('accessToken');
-    navigation.navigate('auth');
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
   };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>General</Text>
+      <Text style={styles.headerText}>{t('general')}</Text>
       <View style={styles.listContainer}>
         <TouchableOpacity
-          onPress={() => null}
+          onPress={toggleModal}
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon
@@ -28,7 +32,7 @@ const General = () => {
             size={20}
             color={myColors['gray-hard']}
           />
-          <Text style={styles.listItemText}>Set Language</Text>
+          <Text style={styles.listItemText}>{t('language')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
@@ -36,12 +40,17 @@ const General = () => {
             style={styles.chevronIcon}
           />
         </TouchableOpacity>
+        <LanguageToggle
+          isModalVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+          toggleModal={toggleModal}
+        />
         <TouchableOpacity
-          onPress={handleLogout}
+          onPress={() => Linking.openSettings()}
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="cog-outline" size={20} color={myColors['gray-hard']} />
-          <Text style={styles.listItemText}>Allow to Access</Text>
+          <Text style={styles.listItemText}>{t('allow')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
@@ -50,11 +59,11 @@ const General = () => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleLogout}
+          onPress={() => null}
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="cloud-outline" size={20} color={myColors['gray-hard']} />
-          <Text style={styles.listItemText}>Clear Cache</Text>
+          <Text style={styles.listItemText}>{t('cache')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
@@ -67,7 +76,7 @@ const General = () => {
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="image-outline" size={20} color={myColors['gray-hard']} />
-          <Text style={styles.listItemText}>Auto Save Photos to Album</Text>
+          <Text style={styles.listItemText}>{t('auto-save')}</Text>
           <Icon
             name="chevron-forward"
             size={20}

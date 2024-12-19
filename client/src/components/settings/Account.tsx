@@ -6,8 +6,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
+import {useTranslation} from 'react-i18next';
 
 const Account = () => {
+  const {t} = useTranslation('settings');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
 
@@ -17,14 +19,14 @@ const Account = () => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Account</Text>
+      <Text style={styles.headerText}>{t('account')}</Text>
       <View style={styles.listContainer}>
         <TouchableOpacity
           onPress={() => null}
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="person-outline" size={20} color={myColors['gray-hard']} />
-          <Text style={styles.listItemText}>Profile</Text>
+          <Text style={styles.listItemText}>{t('profile')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
@@ -41,7 +43,7 @@ const Account = () => {
             size={20}
             color={myColors['gray-hard']}
           />
-          <Text style={styles.listItemText}>Logout</Text>
+          <Text style={styles.listItemText}>{t('logout')}</Text>
           <Icon
             name="chevron-forward"
             size={20}

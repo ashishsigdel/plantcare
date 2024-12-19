@@ -6,18 +6,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
+import {useTranslation} from 'react-i18next';
 
 const About = () => {
+  const {t} = useTranslation('settings');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
 
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem('accessToken');
-    navigation.navigate('auth');
-  };
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>About</Text>
+      <Text style={styles.headerText}>{t('about')}</Text>
       <View style={styles.listContainer}>
         <TouchableOpacity
           onPress={() => null}
@@ -28,7 +26,7 @@ const About = () => {
             size={20}
             color={myColors['gray-hard']}
           />
-          <Text style={styles.listItemText}>About PlantCare</Text>
+          <Text style={styles.listItemText}>{t('about-us')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
@@ -45,7 +43,7 @@ const About = () => {
             size={20}
             color={myColors['gray-hard']}
           />
-          <Text style={styles.listItemText}>Tell Friends</Text>
+          <Text style={styles.listItemText}>{t('share')}</Text>
           <Icon
             name="chevron-forward"
             size={20}

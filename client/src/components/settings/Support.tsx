@@ -6,8 +6,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
+import {useTranslation} from 'react-i18next';
 
 const Support = () => {
+  const {t} = useTranslation('settings');
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
 
@@ -17,7 +20,7 @@ const Support = () => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Support</Text>
+      <Text style={styles.headerText}>{t('support')}</Text>
       <View style={styles.listContainer}>
         <TouchableOpacity
           onPress={() => null}
@@ -28,7 +31,7 @@ const Support = () => {
             size={20}
             color={myColors['gray-hard']}
           />
-          <Text style={styles.listItemText}>Help Center</Text>
+          <Text style={styles.listItemText}>{t('help')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
@@ -41,7 +44,7 @@ const Support = () => {
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="call-outline" size={20} color={myColors['gray-hard']} />
-          <Text style={styles.listItemText}>Contact Us</Text>
+          <Text style={styles.listItemText}>{t('contact')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
@@ -54,7 +57,7 @@ const Support = () => {
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="star-outline" size={20} color={myColors['gray-hard']} />
-          <Text style={styles.listItemText}>Rate Us</Text>
+          <Text style={styles.listItemText}>{t('rate')}</Text>
           <Icon
             name="chevron-forward"
             size={20}

@@ -5,10 +5,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
+import {useTranslation} from 'react-i18next';
 
 const SettingsTop = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const {t} = useTranslation('settings');
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -26,7 +28,7 @@ const SettingsTop = () => {
           fontWeight: 600,
           letterSpacing: 2,
         }}>
-        Settings
+        {t('title')}
       </Text>
     </View>
   );

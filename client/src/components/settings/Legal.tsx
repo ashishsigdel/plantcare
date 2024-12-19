@@ -6,8 +6,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../types/navigation';
+import {useTranslation} from 'react-i18next';
 
 const Legal = () => {
+  const {t} = useTranslation('settings');
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList, 'auth'>>();
 
@@ -17,14 +19,14 @@ const Legal = () => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Legal</Text>
+      <Text style={styles.headerText}>{t('legal')}</Text>
       <View style={styles.listContainer}>
         <TouchableOpacity
           onPress={() => null}
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="shield-outline" size={20} color={myColors['gray-hard']} />
-          <Text style={styles.listItemText}>Privacy and Policy</Text>
+          <Text style={styles.listItemText}>{t('privacy')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
@@ -37,7 +39,7 @@ const Legal = () => {
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="book-outline" size={20} color={myColors['gray-hard']} />
-          <Text style={styles.listItemText}>Terms and Conditions</Text>
+          <Text style={styles.listItemText}>{t('terms')}</Text>
           <Icon
             name="chevron-forward"
             size={20}
