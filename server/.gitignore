@@ -1,2 +1,5 @@
-unet_segmentation/model/cauli_disease.keras
+model
 venv
+__pycache__/
+*.pyc
+*.pyo
