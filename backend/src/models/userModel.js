@@ -11,11 +11,6 @@ const User = (sequelize, Sequelize, DataTypes) => {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-      username: {
-        type: DataTypes.STRING(100),
-        allowNull: false,
-        unique: true,
-      },
       email: {
         type: DataTypes.STRING(100),
         allowNull: false,
@@ -28,6 +23,24 @@ const User = (sequelize, Sequelize, DataTypes) => {
       profilePic: {
         type: DataTypes.STRING(300),
         allowNull: true,
+      },
+      otp: {
+        type: DataTypes.STRING(6),
+        allowNull: true,
+      },
+      otpExpireTime: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      lang:{
+        type: DataTypes.STRING(10),
+        allowNull: true,
+        defaultValue: 'en'
+      },
+      role:{
+        type: DataTypes.STRING(10),
+        allowNull: true,
+        defaultValue: 'user'
       },
     },
     {
