@@ -13,40 +13,47 @@ const User = (sequelize, Sequelize, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
         unique: true,
       },
-      password: {
+      phone: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+        unique: true,
+      },
+      otp: {
         type: DataTypes.STRING(255),
-        allowNull: false,
       },
       profilePic: {
         type: DataTypes.STRING(300),
-        allowNull: true,
-      },
-      otp: {
-        type: DataTypes.STRING(6),
         allowNull: true,
       },
       otpExpireTime: {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      lang:{
+      language: {
         type: DataTypes.STRING(10),
         allowNull: true,
-        defaultValue: 'en'
+        defaultValue: "en",
       },
-      role:{
+      role: {
         type: DataTypes.STRING(10),
         allowNull: true,
-        defaultValue: 'user'
+        defaultValue: "user",
       },
     },
     {
       timestamps: true,
       underscored: true,
       paranoid: true,
+      validate: {
+        emailOrPhone() {
+          if (!this.email && !this.phone) {
+            throw new Error("Either email or phone must be provided.");
+          }
+        },
+      },
     }
   );
 };
