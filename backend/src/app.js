@@ -2,7 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import ApiError from "./utils/apiError.js";
 
-// import apiRoute from "./routes/index.js";
+import apiRoute from "./routes/index.js";
 import cookieParser from "cookie-parser";
 // import setUpSocket from "./socket.js";
 
@@ -18,10 +18,7 @@ const logging = async (req, res, next) => {
   next();
 };
 
-// app.use("/api", logging, apiRoute);
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+app.use("/api", logging, apiRoute);
 
 app.use((req, res, next) => {
   throw new ApiError({
