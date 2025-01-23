@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes, Op, sequelize } from "../database/dbConfig.js";
 
-// import associations from "./associations/index.js";
+import associations from "./associations/index.js";
 
 import User from "./userModel.js";
 
