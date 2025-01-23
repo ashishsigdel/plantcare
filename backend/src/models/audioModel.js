@@ -13,7 +13,7 @@ const Audio = (sequelize, Sequelize, DataTypes) => {
       },
     },
     {
-      timestamps: true,
+      timestamps: false,
       underscored: true,
       paranoid: true,
     }

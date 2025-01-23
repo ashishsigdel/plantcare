@@ -1,18 +1,18 @@
-const Plant = (sequelize, Sequelize, DataTypes) => {
+const Disease = (sequelize, Sequelize, DataTypes) => {
   return sequelize.define(
-    "Plant",
+    "Disease",
     {
       id: {
         type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
-        type: DataTypes.STRING(30),
+      plantId: {
+        type: DataTypes.BIGINT,
         allowNull: false,
       },
-      description: {
-        type: DataTypes.TEXT,
+      name: {
+        type: DataTypes.STRING(100),
         allowNull: false,
       },
     },
@@ -24,4 +24,4 @@ const Plant = (sequelize, Sequelize, DataTypes) => {
   );
 };
 
-export default Plant;
+export default Disease;

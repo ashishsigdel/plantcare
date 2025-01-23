@@ -1,3 +1,6 @@
+import Language from "../enums/language";
+import UserRole from "../enums/userRole";
+
 const User = (sequelize, Sequelize, DataTypes) => {
   return sequelize.define(
     "User",
@@ -16,37 +19,45 @@ const User = (sequelize, Sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
-      password: {
-        type: DataTypes.STRING(255),
+      phone: {
+        type: DataTypes.STRING(100),
         allowNull: false,
+        unique: true,
       },
       profilePic: {
         type: DataTypes.STRING(300),
         allowNull: true,
       },
       otp: {
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(300),
         allowNull: true,
       },
       otpExpireTime: {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      lang:{
-        type: DataTypes.STRING(10),
+      language: {
+        type: DataTypes.ENUM(Object.values(Language)),
         allowNull: true,
-        defaultValue: 'en'
+        defaultValue: Language.EN,
       },
-      role:{
-        type: DataTypes.STRING(10),
+      role: {
+        type: DataTypes.ENUM(Object.values(UserRole)),
         allowNull: true,
-        defaultValue: 'user'
+        defaultValue: UserRole.USER,
       },
     },
     {
       timestamps: true,
       underscored: true,
       paranoid: true,
+      validate: {
+        emailOrPhoneRequired() {
+          if (!this.email && !this.phone) {
+            throw new Error("Either email or phone must be provided.");
+          }
+        },
+      },
     }
   );
 };
