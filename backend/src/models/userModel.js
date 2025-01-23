@@ -1,5 +1,5 @@
-import Language from "../enums/language";
-import UserRole from "../enums/userRole";
+import Language from "../enums/language.js";
+import UserRole from "../enums/userRole.js";
 
 const User = (sequelize, Sequelize, DataTypes) => {
   return sequelize.define(

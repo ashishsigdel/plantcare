@@ -1,6 +1,6 @@
-const DiseaseCures = (sequelize, Sequelize, DataTypes) => {
+const DiseaseCure = (sequelize, Sequelize, DataTypes) => {
   return sequelize.define(
-    "DiseaseCures",
+    "DiseaseCure",
     {
       id: {
         type: DataTypes.BIGINT,
@@ -36,4 +36,4 @@ const DiseaseCures = (sequelize, Sequelize, DataTypes) => {
   );
 };
 
-export default DiseaseCures;
+export default DiseaseCure;
