@@ -16,12 +16,12 @@ const User = (sequelize, Sequelize, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
         unique: true,
       },
       phone: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true,
         unique: true,
       },
       profilePic: {
@@ -51,13 +51,6 @@ const User = (sequelize, Sequelize, DataTypes) => {
       timestamps: true,
       underscored: true,
       paranoid: true,
-      validate: {
-        emailOrPhoneRequired() {
-          if (!this.email && !this.phone) {
-            throw new Error("Either email or phone must be provided.");
-          }
-        },
-      },
     }
   );
 };

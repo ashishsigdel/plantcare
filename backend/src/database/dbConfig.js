@@ -15,7 +15,7 @@ const sequelize = new Sequelize({
       rejectUnauthorized: false,
     },
   },
-  logging: console.log,
+  logging: false,
 });
 
 export { sequelize, DataTypes, Op, Sequelize };

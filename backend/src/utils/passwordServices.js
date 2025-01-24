@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import EnvType from "../enums/envType.js";
 
 const saltRound = 10;
 
@@ -18,7 +19,7 @@ export const comparePassword = async (password, hashedPassword) => {
 };
 
 export const generateOtp = (length) => {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === EnvType.DEV) {
     return "123456";
   }
   const digits = "0123456789";
