@@ -18,6 +18,10 @@ const logging = async (req, res, next) => {
   next();
 };
 
+app.get("/", (req, res) => {
+  res.send("Hello world");
+});
+
 app.use("/api", logging, apiRoute);
 
 app.use((req, res, next) => {
