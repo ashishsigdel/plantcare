@@ -1,6 +1,7 @@
 import express from "express";
 import { createServer } from "http";
 import ApiError from "./utils/apiError.js";
+import cors from "cors";
 
 import apiRoute from "./routes/index.js";
 import cookieParser from "cookie-parser";
