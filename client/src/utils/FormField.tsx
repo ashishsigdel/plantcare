@@ -10,11 +10,12 @@ import {myColors} from '../styles/colors';
 
 interface FormFieldProps {
   title: string;
-  value?: string;
-  handleChange?: (text: string) => void;
+  value: string;
+  handleChange: (text: string) => void;
   otherStyles?: object;
   placeholder: string;
   inputMode: InputModeOptions | undefined;
+  error?: string; // Make it optional
 }
 
 const FormField = ({
@@ -24,11 +25,15 @@ const FormField = ({
   otherStyles,
   placeholder,
   inputMode,
+  error,
 }: FormFieldProps) => {
   return (
     <View style={[styles.container, otherStyles]}>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.inputContainer}>
+      <Text style={[styles.title, error && {color: myColors.red}]}>
+        {title}
+      </Text>
+      <View
+        style={[styles.inputContainer, error && {borderColor: myColors.red}]}>
         <TextInput
           style={styles.textInput}
           value={value}
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: myColors.black,
-    fontWeight: '600',
+    fontWeight: '500',
     marginLeft: 3,
   },
   inputContainer: {
@@ -72,5 +77,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: myColors.gray,
+  },
+  errorText: {
+    fontSize: 12,
+    marginTop: 4,
+    color: myColors.red,
   },
 });

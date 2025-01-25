@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,67 +9,24 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../types/navigation';
 import {CustomButton} from '../../utils';
 import {myColors} from '../../styles/colors';
 import {useTranslation} from 'react-i18next';
-import {asyncStorage} from '../../services/asyncStorage';
+import useVerifyOTP from './useVerifyOTP';
 
 const Verify = () => {
   const {t} = useTranslation('verify-otp');
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList, 'home'>>();
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const [timer, setTimer] = useState(30);
-  const inputs = useRef<TextInput[]>([]);
-  const [otpError, setOtpError] = useState<string>('');
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout | undefined;
-    if (timer > 0) {
-      interval = setInterval(() => {
-        setTimer(prev => prev - 1);
-      }, 1000);
-    }
-
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [timer]);
-
-  const handleOtpChange = (text: string, index: number) => {
-    const updatedOtp = [...otp];
-    updatedOtp[index] = text;
-    setOtp(updatedOtp);
-
-    if (text && index < 5) {
-      inputs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyPress = (e: any, index: number) => {
-    if (e.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
-      inputs.current[index - 1]?.focus();
-    }
-  };
-
-  const handleResend = () => {
-    setTimer(30);
-    setOtp(['', '', '', '', '', '']);
-    inputs.current[0]?.focus(); // Focus on the first input
-    console.log('Resend OTP');
-  };
-
-  const handleVerify = async () => {
-    console.log('OTP Entered:', otp.join(''));
-    setOtpError('');
-    await asyncStorage.setItem('accessToken', 'hdfkdjfkdjfdjf');
-    navigation.navigate('tabs');
-  };
+  const {
+    otp,
+    inputs,
+    otpError,
+    handleOtpChange,
+    handleKeyPress,
+    timer,
+    handleResend,
+    handleVerify,
+    loading,
+  } = useVerifyOTP();
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -114,6 +71,7 @@ const Verify = () => {
           handlePress={handleVerify}
           containerStyles={styles.verifyButton}
           textStyles={styles.verifyButtonText}
+          isLoading={loading}
         />
       </SafeAreaView>
     </TouchableWithoutFeedback>

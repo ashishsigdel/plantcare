@@ -1,6 +1,6 @@
 const Language = {
-  NP: "nepali",
-  EN: "english",
+  NP: "np",
+  EN: "en",
 };
 
 export default Language;

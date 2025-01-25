@@ -22,7 +22,7 @@ const Account = () => {
       <Text style={styles.headerText}>{t('account')}</Text>
       <View style={styles.listContainer}>
         <TouchableOpacity
-          onPress={() => null}
+          onPress={() => navigation.navigate('profile')}
           activeOpacity={0.7}
           style={styles.listItem}>
           <Icon name="person-outline" size={20} color={myColors['gray-hard']} />

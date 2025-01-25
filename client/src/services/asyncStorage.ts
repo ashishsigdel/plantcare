@@ -18,4 +18,12 @@ export const asyncStorage = {
       handleErrorCallback?.(error);
     }
   },
+  removeItem: async (key: string, handleErrorCallback?: Function) => {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (error) {
+      console.log('Asyncstorage Error: ', error);
+      handleErrorCallback?.(error);
+    }
+  },
 };

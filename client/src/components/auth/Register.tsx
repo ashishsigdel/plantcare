@@ -1,9 +1,10 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {CustomButton, FormField} from '../../utils';
 import {myColors} from '../../styles/colors';
 import {useTranslation} from 'react-i18next';
+import useRegister from './useRegister';
 
 interface RegisterProps {
   openLogin: () => void;
@@ -11,20 +12,39 @@ interface RegisterProps {
 
 const Register = ({openLogin}: RegisterProps) => {
   const {t} = useTranslation('auth');
+
+  const {
+    fullname,
+    setFullname,
+    data,
+    setData,
+    handlePress,
+    fullNameError,
+    dataError,
+    loading,
+  } = useRegister();
   return (
     <View style={styles.container}>
       <Text style={styles.loginText}>{t('register')}</Text>
 
       <View style={styles.formContainer}>
-        <FormField
-          title={t('fullname')}
-          placeholder={t('name-placeholder')}
-          inputMode="text"
-        />
+        <View>
+          <FormField
+            title={t('fullname')}
+            placeholder={t('name-placeholder')}
+            inputMode="text"
+            value={fullname}
+            handleChange={e => setFullname(e)}
+            error={fullNameError}
+          />
+        </View>
         <FormField
           title={t('mobile')}
           placeholder={t('mobile-placeholder')}
-          inputMode="numeric"
+          inputMode="text"
+          value={data}
+          handleChange={e => setData(e)}
+          error={dataError}
         />
 
         <TouchableOpacity
@@ -36,11 +56,11 @@ const Register = ({openLogin}: RegisterProps) => {
 
         <CustomButton
           title={t('send')}
-          handlePress={() => console.log('Button Pressed')}
+          handlePress={handlePress}
           containerStyles={styles.buttonContainer}
           textStyles={styles.buttonText}
-          isLoading={false}
-          iconname="send-outline"
+          isLoading={loading}
+          iconname={'send-outline'}
         />
       </View>
     </View>
@@ -104,5 +124,10 @@ const styles = StyleSheet.create({
   helpSubtitle: {
     fontSize: 14,
     color: myColors.gray,
+  },
+  errorText: {
+    fontSize: 12,
+    marginTop: 1,
+    color: myColors.red,
   },
 });

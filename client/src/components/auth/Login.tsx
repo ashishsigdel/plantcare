@@ -1,12 +1,10 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../types/navigation';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {CustomButton, FormField} from '../../utils';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {myColors} from '../../styles/colors';
 import {useTranslation} from 'react-i18next';
+import useRegister from './useRegister';
 
 interface LoginProps {
   openRegister: () => void;
@@ -14,10 +12,8 @@ interface LoginProps {
 
 const Login = ({openRegister}: LoginProps) => {
   const {t} = useTranslation('auth');
-  const navigation =
-    useNavigation<
-      NativeStackNavigationProp<RootStackParamList, 'verify-otp'>
-    >();
+
+  const {data, setData, handleLogin, dataError, loading} = useRegister();
   return (
     <View style={styles.container}>
       <Text style={styles.loginText}>{t('login')}</Text>
@@ -26,7 +22,10 @@ const Login = ({openRegister}: LoginProps) => {
         <FormField
           title={t('mobile')}
           placeholder={t('mobile-placeholder')}
-          inputMode="numeric"
+          inputMode="text"
+          value={data}
+          handleChange={e => setData(e)}
+          error={dataError}
         />
 
         <TouchableOpacity
@@ -38,10 +37,10 @@ const Login = ({openRegister}: LoginProps) => {
 
         <CustomButton
           title={t('send')}
-          handlePress={() => navigation.navigate('verify-otp')}
+          handlePress={handleLogin}
           containerStyles={styles.buttonContainer}
           textStyles={styles.buttonText}
-          isLoading={false}
+          isLoading={loading}
           iconname="send-outline"
         />
       </View>

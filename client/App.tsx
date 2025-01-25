@@ -13,6 +13,7 @@ import Analysis from './src/app/Analysis';
 import Insights from './src/app/home-tab/Insights';
 import ResultPage from './src/app/ResultPage';
 import SettingsPage from './src/app/home-tab/SettingsPage';
+import Profile from './src/app/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,7 @@ const App = () => {
           <Stack.Screen name="settings" component={SettingsPage} />
           <Stack.Screen name="insights" component={Insights} />
           <Stack.Screen name="result" component={ResultPage} />
+          <Stack.Screen name="profile" component={Profile} />
         </Stack.Navigator>
       </NavigationContainer>
     </TranslationProvider>

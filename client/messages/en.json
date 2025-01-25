@@ -2,8 +2,8 @@
   "auth": {
     "title": "Welcome!",
     "login": "Login with Phone",
-    "mobile": "Phone Number*",
-    "mobile-placeholder": "Enter your phone number",
+    "mobile": "Phone Number or Email*",
+    "mobile-placeholder": "Enter your phone or email",
     "not-register": "Not Registered?",
     "send": "Send OTP",
     "register": "Register with Phone",
@@ -11,7 +11,8 @@
     "name-placeholder": "Enter your full name",
     "already-register": "Already Register?",
     "help": "Help Center",
-    "help-description": "Get solutions for your queries."
+    "help-description": "Get solutions for your queries.",
+    "loading": "Loading"
   },
   "verify-otp": {
     "title": "Verify OTP",
