@@ -1,10 +1,20 @@
 import ApiResponse from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { getImageURL } from "../utils/fileUpload.js";
+import ApiError from "../utils/apiError.js";
 
 import db from "../models/index.js";
 
-const { Upload, Disease } = db;
+const {
+  Upload,
+  Disease,
+  DiseaseDescription,
+  DiseasePrevention,
+  DiseaseSymptom,
+  DiseaseCure,
+  Audio,
+  Report,
+} = db;
 
 export const uploadImage = asyncHandler(async (req, res) => {
   if (!req.file) {
@@ -18,7 +28,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
 
   if (!user) {
     throw new ApiError({
-      status: 401,
+      status: 404,
       message: "Please login first!",
     });
   }
@@ -43,29 +53,82 @@ export const uploadImage = asyncHandler(async (req, res) => {
   });
 
   let detectedDisesase;
-  //call api for disesase detect
+  //call api for disesase detect to AI model later
   try {
     detectedDisesase = {
+      plant: "Cauliflower",
       name: "Black Rot",
+      patter: upload.url,
     };
   } catch (error) {
-    console.log(error);
+    throw new ApiError({
+      status: 403,
+      message: "Error while detecting. Try again later.",
+    });
   }
 
-  let responseData = {
-    plantImage: {
-      id: upload.id,
-      url: upload.url,
-      name: detectedDisesase,
+  const disease = await Disease.findOne({
+    where: {
+      name: detectedDisesase.name,
     },
-    disease: await Disease.findOne({
-      where: {
-        name: detectedDisesase.name,
+    attributes: {
+      exclude: ["createdAt", "updatedAt"],
+    },
+    include: [
+      {
+        model: DiseaseDescription,
+        as: "diseaseDescription",
+        attributes: ["descriptionEn", "descriptionNP"],
+        include: [
+          { model: Audio, as: "enAudio", attributes: ["url"] },
+          { model: Audio, as: "npAudio", attributes: ["url"] },
+        ],
       },
-      attributes: {
-        exclude: ["createdAt", "updatedAt"],
+      {
+        model: DiseaseSymptom,
+        as: "diseaseSymptom",
+        attributes: ["symptomsEn", "symptomsNP"],
+        include: [
+          { model: Audio, as: "enAudio", attributes: ["url"] },
+          { model: Audio, as: "npAudio", attributes: ["url"] },
+        ],
       },
-    }),
+      {
+        model: DiseasePrevention,
+        as: "diseasePrevention",
+        attributes: ["preventionsEn", "preventionsNP"],
+
+        include: [
+          { model: Audio, as: "enAudio", attributes: ["url"] },
+          { model: Audio, as: "npAudio", attributes: ["url"] },
+        ],
+      },
+      {
+        model: DiseaseCure,
+        as: "diseaseCure",
+        attributes: ["curesEn", "curesNP"],
+        include: [
+          { model: Audio, as: "enAudio", attributes: ["url"] },
+          { model: Audio, as: "npAudio", attributes: ["url"] },
+        ],
+      },
+    ],
+  });
+
+  await Report.create({
+    userId: user.id,
+    uploadId: upload.id,
+    diseaseId: disease.id,
+    reportPatternUrl: upload.url, // change here later
+  });
+
+  let responseData = {
+    plant: {
+      name: detectedDisesase.plant,
+      plantUrl: upload.url,
+      reportPatternUrl: upload.url, // chage here later
+    },
+    disease,
   };
 
   return new ApiResponse({
