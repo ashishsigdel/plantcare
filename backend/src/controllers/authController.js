@@ -51,7 +51,7 @@ export const register = asyncHandler(async (req, res) => {
   const otp = generateOtp(6);
   const hashedOtp = await hashPassword(otp);
 
-  // Send OTP here (e.g., Email or SMS API)
+  // Send OTP here (e.g., Email or SMS API) --> done
   try {
     await sendOtp(email, otp);
   } catch (err) {
