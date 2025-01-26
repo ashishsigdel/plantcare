@@ -5,19 +5,18 @@ const diseaseCureAssociation = (db) => {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
-  db.DiseaseCure.hasOne(db.Audio, {
-    foreignKey: "curesAVEnId",
+  db.DiseaseCure.belongsTo(db.Audio, {
+    foreignKey: "diseaseAVEnId",
     as: "enAudio",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
-    constraints: false,
   });
-  db.DiseaseCure.hasOne(db.Audio, {
-    foreignKey: "curesAVNpId",
+
+  db.DiseaseCure.belongsTo(db.Audio, {
+    foreignKey: "diseaseAVNpId",
     as: "npAudio",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
-    constraints: false,
   });
 };
 

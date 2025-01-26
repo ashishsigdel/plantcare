@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 const sendOtp = async function (email, otp) {
   const mailOptions = {
-    from: process.env.MAIL_HOST_ID,
+    from: '"PlantCare" <noreply@plantcare.com>',
     to: email,
     subject: "PlatCare: Login OTP ",
     html: `<div> <p> Your OTP for login is ${otp}</p> <br> <p> This OTP is valid for 10 minutes.</p> <br> <p> If you didn't request this, please ignore this email.</p> </div>`,

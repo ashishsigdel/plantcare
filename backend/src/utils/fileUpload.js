@@ -1,26 +1,24 @@
-import { bucket } from "../firebase.js";
 import { Readable } from "stream";
+import cloudinary from "../config/cloudinaryConfig.js";
 
-export const getImageUrl = async ({ buffer, originalname, mimetype }) => {
-  const fileName = `${Date.now()}-${originalname}`;
-  const file = bucket.file(fileName);
-
-  const stream = Readable.from(buffer);
-
-  const streamUpload = stream.pipe(
-    file.createWriteStream({
-      metadata: {
-        contentType: mimetype,
+export const getImageURL = async ({ buffer, originalname, mimetype }) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: "ashishsigdel-web",
+        resource_type: "auto",
+        public_id: originalname.split(".")[0],
       },
-    })
-  );
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result?.secure_url || "");
+        }
+      }
+    );
 
-  await new Promise((resolve, reject) => {
-    streamUpload.on("finish", () => resolve());
-    streamUpload.on("error", reject);
+    const stream = Readable.from(buffer);
+    stream.pipe(uploadStream);
   });
-
-  await file.makePublic();
-
-  return `https://storage.googleapis.com/${bucket.name}/${fileName}`;
 };
