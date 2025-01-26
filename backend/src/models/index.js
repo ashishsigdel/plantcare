@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Op, sequelize } from "../database/dbConfig.js";
+import { Sequelize, DataTypes, Op, sequelize } from "../config/dbConfig.js";
 
 import associations from "./associations/index.js";
 
