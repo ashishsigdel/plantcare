@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 
-export const baseUrl = `https://plantcare-api.sigdelashish.com.np/api`;
+export const baseUrl = `https://plantcare-vmxr.onrender.com/api`;
 
 const myAxios: AxiosInstance = axios.create({
   baseURL: baseUrl,
