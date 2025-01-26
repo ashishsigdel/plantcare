@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.use("/auth", authRoute);
 router.use("/upload", uploadRoute);
+router.use("/user", userRoute);
 
 export default router;

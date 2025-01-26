@@ -5,10 +5,6 @@ dotenv.config();
 
 const PORT = process.env.PORT || 8080;
 
-httpServer.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 (async () => {
   try {
     await sequelize.authenticate();
@@ -20,3 +16,7 @@ httpServer.listen(PORT, () => {
     console.log("An error occured while connecting database.", error);
   }
 })();
+
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
