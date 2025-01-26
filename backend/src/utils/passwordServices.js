@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import EnvType from "../enums/envType.js";
 
 const saltRound = 10;
@@ -22,12 +23,6 @@ export const generateOtp = (length) => {
   if (process.env.NODE_ENV === EnvType.DEV) {
     return "123456";
   }
-  const digits = "0123456789";
-  let OTP = "";
-
-  for (let i = 0; i < length; i++) {
-    OTP += digits[Math.floor(Math.random() * 10)];
-  }
-
+  const OTP = crypto.randomInt(100000, 999999).toString();
   return OTP;
 };

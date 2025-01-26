@@ -9,6 +9,7 @@ import {
   generateOtp,
   hashPassword,
 } from "../utils/passwordServices.js";
+import sendOtp from "../utils/sendOtp.js";
 
 const { User } = db;
 
@@ -51,7 +52,14 @@ export const register = asyncHandler(async (req, res) => {
   const hashedOtp = await hashPassword(otp);
 
   // Send OTP here (e.g., Email or SMS API)
-
+  try {
+    await sendOtp(email, otp);
+  } catch (err) {
+    throw new ApiError({
+      status: 500,
+      message: "Error while sending OTP",
+    });
+  }
   await newUser.update({
     otp: hashedOtp,
     otpExpireTime: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes expiry

@@ -2,13 +2,8 @@ import httpServer from "./src/app.js";
 import dotenv from "dotenv";
 import { sequelize } from "./src/database/dbConfig.js";
 dotenv.config();
-import db from "./src/models/index.js";
 
 const PORT = process.env.PORT || 8080;
-
-httpServer.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
 (async () => {
   try {
@@ -21,3 +16,7 @@ httpServer.listen(PORT, () => {
     console.log("An error occured while connecting database.", error);
   }
 })();
+
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
