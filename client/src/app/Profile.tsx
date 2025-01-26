@@ -5,6 +5,7 @@ import {myColors} from '../styles/colors';
 import TopBar from '../utils/TopBar';
 import defaultProfile from '../assets/defaultProfile.jpg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import RequireAuth from '../utils/RequireAuth';
 
 const Profile = () => {
   const [user, setUser] = useState<any>({});
@@ -18,50 +19,64 @@ const Profile = () => {
   }, []);
 
   return (
-    <View style={styles.screen}>
-      <SafeAreaView>
-        <TopBar title="Profile" />
-        <View style={styles.container}>
-          <View style={styles.profileSection}>
-            <Image
-              style={styles.profilePic}
-              source={
-                user?.profilePic ? {uri: user.profilePic} : defaultProfile
-              }
-              width={300}
-              height={300}
-            />
-            <Text style={styles.fullname}>
-              {user?.fullName || 'Guest User'}
-            </Text>
-          </View>
-          <View style={styles.detailsContainer}>
-            <Text style={{marginBottom: 4, fontWeight: '500', fontSize: 18}}>
-              More Details:
-            </Text>
-            <View style={styles.detailRow}>
-              <Ionicons name="mail-outline" size={18} color={myColors.black} />
-              <Text style={styles.label}>Email:</Text>
-              <Text style={styles.value}>{user.email || 'Not available'}</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Ionicons name="call-outline" size={18} color={myColors.black} />
-              <Text style={styles.label}>Phone:</Text>
-              <Text style={styles.value}>{user.phone || 'Not available'}</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Ionicons
-                name="person-outline"
-                size={18}
-                color={myColors.black}
+    <RequireAuth>
+      <View style={styles.screen}>
+        <SafeAreaView>
+          <TopBar title="Profile" />
+          <View style={styles.container}>
+            <View style={styles.profileSection}>
+              <Image
+                style={styles.profilePic}
+                source={
+                  user?.profilePic ? {uri: user.profilePic} : defaultProfile
+                }
+                width={300}
+                height={300}
               />
-              <Text style={styles.label}>Role:</Text>
-              <Text style={styles.value}>{user.role || 'Not available'}</Text>
+              <Text style={styles.fullname}>
+                {user?.fullName || 'Guest User'}
+              </Text>
+            </View>
+            <View style={styles.detailsContainer}>
+              <Text style={{marginBottom: 4, fontWeight: '500', fontSize: 18}}>
+                More Details:
+              </Text>
+              <View style={styles.detailRow}>
+                <Ionicons
+                  name="mail-outline"
+                  size={18}
+                  color={myColors.black}
+                />
+                <Text style={styles.label}>Email:</Text>
+                <Text style={styles.value}>
+                  {user.email || 'Not available'}
+                </Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Ionicons
+                  name="call-outline"
+                  size={18}
+                  color={myColors.black}
+                />
+                <Text style={styles.label}>Phone:</Text>
+                <Text style={styles.value}>
+                  {user.phone || 'Not available'}
+                </Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Ionicons
+                  name="person-outline"
+                  size={18}
+                  color={myColors.black}
+                />
+                <Text style={styles.label}>Role:</Text>
+                <Text style={styles.value}>{user.role || 'Not available'}</Text>
+              </View>
             </View>
           </View>
-        </View>
-      </SafeAreaView>
-    </View>
+        </SafeAreaView>
+      </View>
+    </RequireAuth>
   );
 };
 

@@ -9,22 +9,26 @@ import {RootStackParamList} from '../types/navigation';
 
 interface Props {
   title: string;
+  back?: boolean;
 }
 
-const TopBar = ({title}: Props) => {
+const TopBar = ({title, back = true}: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {t} = useTranslation('settings');
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          left: 20,
-        }}
-        onPress={() => navigation.goBack()}>
-        <Icon name={'arrow-back'} size={20} color={myColors['gray-hard']} />
-      </TouchableOpacity>
+      {back && (
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            left: 20,
+          }}
+          onPress={() => navigation.goBack()}>
+          <Icon name={'arrow-back'} size={20} color={myColors['gray-hard']} />
+        </TouchableOpacity>
+      )}
+
       <Text
         style={{
           fontSize: 20,

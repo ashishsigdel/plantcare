@@ -20,6 +20,7 @@ import {asyncStorage} from '../services/asyncStorage';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
+import RequireAuth from '../utils/RequireAuth';
 
 const TabBar = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -55,83 +56,85 @@ const TabNavigator: React.FC = () => {
 
   return (
     <>
-      <TabBar.Navigator
-        screenOptions={{
-          tabBarShowLabel: false,
-          headerShown: false,
-          tabBarStyle: {
-            backgroundColor: myColors.white,
-            height: 65,
-          },
-          tabBarButton: props => (
-            <TouchableOpacity
-              {...(props as TouchableOpacityProps)}
-              activeOpacity={1}>
-              {props.children}
-            </TouchableOpacity>
-          ),
-        }}>
-        <TabBar.Screen
-          name="Home"
-          component={HomePage}
-          options={{
-            tabBarIcon: ({focused}) => (
-              <TabIcon icon="home" name="Home" focused={focused} />
-            ),
-          }}
-        />
-        <TabBar.Screen
-          name="Insights"
-          component={Insights}
-          options={{
-            tabBarIcon: ({focused}) => (
-              <TabIcon icon="stats-chart" name="Insights" focused={focused} />
-            ),
-          }}
-        />
-        <TabBar.Screen
-          name="Camera"
-          options={{
-            tabBarButton: () => (
+      <RequireAuth>
+        <TabBar.Navigator
+          screenOptions={{
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarStyle: {
+              backgroundColor: myColors.white,
+              height: 65,
+            },
+            tabBarButton: props => (
               <TouchableOpacity
-                style={styles.customCameraButtonContainer}
-                onPress={() => navigation.navigate('camera')}
-                activeOpacity={0.8}>
-                <View style={styles.customCameraButtonInner}>
-                  <Icon name="camera" size={30} color="white" />
-                </View>
+                {...(props as TouchableOpacityProps)}
+                activeOpacity={1}>
+                {props.children}
               </TouchableOpacity>
             ),
           }}>
-          {() => null}
-        </TabBar.Screen>
-        <TabBar.Screen
-          name="History"
-          component={History}
-          options={{
-            tabBarIcon: ({focused}) => (
-              <TabIcon icon="document" name="History" focused={focused} />
-            ),
-          }}
-        />
-        <TabBar.Screen
-          name="Settings"
-          options={{
-            tabBarIcon: ({focused}) => (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('settings')}
-                activeOpacity={0.8}
-                style={{
-                  position: 'absolute',
-                }}>
-                <TabIcon icon="cog" name="Settings" focused={focused} />
-              </TouchableOpacity>
-            ),
-          }}>
-          {() => null}
-        </TabBar.Screen>
-      </TabBar.Navigator>
-      <StatusBar barStyle={'dark-content'} />
+          <TabBar.Screen
+            name="Home"
+            component={HomePage}
+            options={{
+              tabBarIcon: ({focused}) => (
+                <TabIcon icon="home" name="Home" focused={focused} />
+              ),
+            }}
+          />
+          <TabBar.Screen
+            name="Insights"
+            component={Insights}
+            options={{
+              tabBarIcon: ({focused}) => (
+                <TabIcon icon="stats-chart" name="Insights" focused={focused} />
+              ),
+            }}
+          />
+          <TabBar.Screen
+            name="Camera"
+            options={{
+              tabBarButton: () => (
+                <TouchableOpacity
+                  style={styles.customCameraButtonContainer}
+                  onPress={() => navigation.navigate('camera')}
+                  activeOpacity={0.8}>
+                  <View style={styles.customCameraButtonInner}>
+                    <Icon name="camera" size={30} color="white" />
+                  </View>
+                </TouchableOpacity>
+              ),
+            }}>
+            {() => null}
+          </TabBar.Screen>
+          <TabBar.Screen
+            name="History"
+            component={History}
+            options={{
+              tabBarIcon: ({focused}) => (
+                <TabIcon icon="document" name="History" focused={focused} />
+              ),
+            }}
+          />
+          <TabBar.Screen
+            name="Settings"
+            options={{
+              tabBarIcon: ({focused}) => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('settings')}
+                  activeOpacity={0.8}
+                  style={{
+                    position: 'absolute',
+                  }}>
+                  <TabIcon icon="cog" name="Settings" focused={focused} />
+                </TouchableOpacity>
+              ),
+            }}>
+            {() => null}
+          </TabBar.Screen>
+        </TabBar.Navigator>
+        <StatusBar barStyle={'dark-content'} />
+      </RequireAuth>
     </>
   );
 };
