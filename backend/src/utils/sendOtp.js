@@ -16,7 +16,7 @@ const sendOtp = async function (email, otp) {
     from: process.env.MAIL_HOST_ID,
     to: email,
     subject: "PlatCare: Login OTP ",
-    html: `<div> <p> Your OTP for login is ${otp}</p> <br> <p> This OTP is valid for 10 minutes.</p> <br> <p> If you didn't request this, please ignore this email.</p> </div>`,
+    html: `<div> <p> Your OTP for login is: ${otp}</p> <br> <p> This OTP is valid for 10 minutes.</p> <br> <p> If you didn't request this, please ignore this email.</p> </div>`,
   };
 
   try {

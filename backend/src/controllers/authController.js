@@ -101,6 +101,14 @@ export const login = asyncHandler(async (req, res) => {
   const hashedOtp = await hashPassword(otp);
 
   // Send OTP here (e.g., Email or SMS API)
+  try {
+    await sendOtp(email, otp);
+  } catch (err) {
+    throw new ApiError({
+      status: 500,
+      message: "Error while sending OTP",
+    });
+  }
 
   await existUser.update({
     otp: hashedOtp,
@@ -174,6 +182,13 @@ export const verifyOtp = asyncHandler(async (req, res) => {
     userId: existUser.id,
   });
 
+  const refreshToken = generateAccessToken(
+    {
+      userId: existUser.id,
+    },
+    "refresh"
+  );
+
   let responseData = {
     accessToken,
     user: await User.findOne({
@@ -195,7 +210,13 @@ export const verifyOtp = asyncHandler(async (req, res) => {
   res.cookie("accessToken", `Bearer ${accessToken}`, {
     httpOnly: true,
     secure: process.env.NODE_ENV === EnvType.PROD,
-    maxAge: 60 * 60 * 1000,
+    maxAge: 2 * 60 * 60 * 1000,
+  });
+
+  res.cookie("refreshToken", `Bearer ${refreshToken}`, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === EnvType.PROD,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   });
 
   return new ApiResponse({
