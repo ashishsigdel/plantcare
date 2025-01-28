@@ -1,6 +1,6 @@
 import httpServer from "./src/app.js";
 import dotenv from "dotenv";
-import { sequelize } from "./src/database/dbConfig.js";
+import { sequelize } from "./src/config/dbConfig.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 8080;

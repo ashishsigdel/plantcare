@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
-  Image,
   Text,
   Alert,
 } from 'react-native';
@@ -15,26 +14,30 @@ import {
   PhotoFile,
 } from 'react-native-vision-camera';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Spinner} from '../../utils';
+import {Spinner} from '../../../utils';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../types/navigation';
-import {myColors} from '../../styles/colors';
+import {RootStackParamList} from '../../../types/navigation';
+import {myColors} from '../../../styles/colors';
 import {Linking} from 'react-native';
 import {
   launchImageLibrary,
   ImageLibraryOptions,
 } from 'react-native-image-picker';
-import {asyncStorage} from '../../services/asyncStorage';
 import {NoCameraFound} from './';
 
-const CameraTab = () => {
+interface Props {
+  photo: PhotoFile | {uri: string} | null;
+  setPhoto: any;
+}
+
+const CameraTab = ({photo, setPhoto}: Props) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const [isBackCamera, setIsBackCamera] = useState(true);
   const [flashMode, setFlashMode] = useState<'off' | 'on' | 'auto'>('off');
-  const [photo, setPhoto] = useState<PhotoFile | {uri: string} | null>(null);
+  // const [photo, setPhoto] = useState<PhotoFile | {uri: string} | null>(null);
   const [permissionStatus, setPermissionStatus] = useState<
     'not-determined' | 'denied' | 'granted'
   >('not-determined');
@@ -78,19 +81,6 @@ const CameraTab = () => {
       focusListener();
     };
   }, [navigation]);
-
-  useEffect(() => {
-    if (photo) {
-      const photoUri = 'uri' in photo ? photo.uri : photo.path;
-
-      const photoAction = async () => {
-        await asyncStorage.setItem('currentphoto', photoUri);
-        navigation.navigate('analysis');
-      };
-
-      photoAction();
-    }
-  }, [photo, navigation]);
 
   const handlePermissionDenied = () => {
     Alert.alert(
