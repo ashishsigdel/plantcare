@@ -1,21 +1,72 @@
-import { verifyToken } from "../utils/jwtUtils";
+import ApiError from "../utils/apiError.js";
+import {
+  generateAccessToken,
+  verifyAccessToken,
+  verifyRefreshToken,
+} from "../utils/jwtUtils.js";
 
-const authUsr = (req, res, next) => {
-  const token = req.headers["authorization"];
-  if (!token) {
-    return res.status(401).send("Access Denied. No token provided.");
+const authUser = async function (req, res, next) {
+  const accessToken = req.cookies.accessToken;
+
+  if (!accessToken) {
+    return next(
+      new ApiError({
+        status: 401,
+        message: "Access Token not found",
+      })
+    );
   }
+
   try {
-    const decodedUser = verifyToken({ token });
-    req.user = decodedUser;
-    if (req.user) {
-      next();
-    } else {
-      res.status(401).send("Unauthorized");
-    }
+    const decodedToken = await verifyAccessToken(accessToken);
+    console.log(decodedToken);
+    res.locals.user = decodedToken;
+    next();
   } catch (err) {
-    res.status(400).send("Invalid Token");
+    console.log(err.message);
+    if (err.message === "jwt expired") {
+      const refreshToken = req.cookies.refreshToken;
+      if (!refreshToken) {
+        return next(
+          new ApiError({
+            status: 401,
+            message: "Refresh Token not found",
+          })
+        );
+      }
+      try {
+        const decodedToken = await verifyRefreshToken(refreshToken);
+        console.log(decodedToken);
+        const newAccessToken = generateAccessToken({
+          userId: decodedToken.id,
+        });
+        res.cookie("accessToken", newAccessToken, {
+          httpOnly: true,
+          maxAge: 60 * 60 * 1000,
+          sameSite: "none",
+          secure: true,
+        });
+        console.log("Access Token Refreshed");
+        res.locals.user = decodedToken;
+        return next();
+      } catch (err) {
+        console.log(err.message);
+        return next(
+          new ApiError({
+            status: 403,
+            message: "Access Denied",
+          })
+        );
+      }
+    } else {
+      return next(
+        new ApiError({
+          status: 403,
+          message: "Access Denied",
+        })
+      );
+    }
   }
 };
 
-export default authUsr;
+export default authUser;
