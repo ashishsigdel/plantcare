@@ -21,12 +21,14 @@ export const generateAccessToken = ({ userId }) => {
       id: userId,
     },
     SECRET_KEY: process.env.SECRET_KEY,
-    expiresIn: "2h",
+    expiresIn: "30s",
   });
 };
 
-export const verifyToken = ({ token, ignoreExpiration = false }) => {
-  return jwt.verify(token, process.env.SECRET_KEY, {
-    ignoreExpiration: ignoreExpiration,
-  });
+export const verifyAccessToken = async (token) => {
+  return jwt.verify(token, process.env.SECRET_KEY);
+};
+
+export const verifyRefreshToken = async (token) => {
+  return jwt.verify(token, process.env.REFRESH_SECRET_KEY);
 };
