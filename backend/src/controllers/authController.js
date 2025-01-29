@@ -3,7 +3,10 @@ import db from "../models/index.js";
 import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { generateAccessToken } from "../utils/jwtUtils.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../utils/jwtUtils.js";
 import {
   comparePassword,
   generateOtp,
@@ -182,6 +185,10 @@ export const verifyOtp = asyncHandler(async (req, res) => {
     userId: existUser.id,
   });
 
+  const refreshToken = generateRefreshToken({
+    userId: existUser.id,
+  });
+
   let responseData = {
     accessToken,
     user: await User.findOne({
@@ -200,15 +207,21 @@ export const verifyOtp = asyncHandler(async (req, res) => {
     }),
   };
 
-  res.cookie("accessToken", `Bearer ${accessToken}`, {
+  res.cookie("accessToken", `${accessToken}`, {
     httpOnly: true,
     secure: process.env.NODE_ENV === EnvType.PROD,
     maxAge: 60 * 60 * 1000,
   });
 
+  res.cookie("refreshToken", `${refreshToken}`, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === EnvType.PROD,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
+
   return new ApiResponse({
     status: 200,
-    message: "user login succcessfully!",
+    message: "User login succcessfully!",
     data: responseData,
   }).send(res);
 });
