@@ -7,10 +7,6 @@ const Upload = (sequelize, Sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      userId: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
       url: {
         type: DataTypes.STRING(300),
         allowNull: false,
