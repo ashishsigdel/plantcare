@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-app.use("/api", apiRoute);
+app.use("/api", logging, apiRoute);
 
 app.use((req, res, next) => {
   throw new ApiError({
