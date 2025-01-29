@@ -1,13 +1,13 @@
 import express from "express";
 
 import * as uploadController from "../controllers/uploadController.js";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
-import { upload } from "../middlewares/uploadMiddleware.js";
+import { upload } from "../middleware/imageUpload.middleware.js";
+import authUser from "../middleware/userAuth.middleware.js";
 
 const router = express.Router();
 
 router
   .route("/")
-  .post(authMiddleware, upload.single("picture"), uploadController.uploadImage);
+  .post(authUser, upload.single("picture"), uploadController.uploadImage);
 
 export default router;

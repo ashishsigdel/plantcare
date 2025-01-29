@@ -14,6 +14,7 @@ const {
   DiseaseCure,
   Audio,
   Report,
+  User,
 } = db;
 
 export const uploadImage = asyncHandler(async (req, res) => {
@@ -24,14 +25,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
     });
   }
 
-  const user = req.user;
-
-  if (!user) {
-    throw new ApiError({
-      status: 404,
-      message: "Please login first!",
-    });
-  }
+  const u = res.locals.user;
 
   let publicUrl;
   try {
@@ -48,7 +42,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
   }
 
   const upload = await Upload.create({
-    userId: user.id,
+    userId: u.id,
     url: publicUrl,
   });
 
@@ -116,7 +110,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
   });
 
   await Report.create({
-    userId: user.id,
+    userId: u.id,
     uploadId: upload.id,
     diseaseId: disease.id,
     reportPatternUrl: upload.url, // change here later

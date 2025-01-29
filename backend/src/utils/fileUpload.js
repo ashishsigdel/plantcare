@@ -5,9 +5,9 @@ export const getImageURL = async ({ buffer, originalname, mimetype }) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: "ashishsigdel-web",
+        folder: "plantcare-web",
         resource_type: "auto",
-        public_id: originalname.split(".")[0],
+        public_id: originalname.split(".")[0] + Date.now(),
       },
       (error, result) => {
         if (error) {
