@@ -1,7 +1,9 @@
 import db from "../models/index.js";
+import { Op } from "sequelize";
 import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import { subDays } from "date-fns";
 
 const {
   User,
@@ -24,15 +26,20 @@ export const fetchHistory = asyncHandler(async (req, res) => {
     });
   }
 
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
-  const offset = (page - 1) * limit;
+  const till = parseInt(req.query.till);
 
-  const { count, rows: history } = await Report.findAndCountAll({
+  let dateFrom;
+
+  if (till) {
+    dateFrom = subDays(new Date(), till);
+  }
+
+  const history = await Report.findAll({
     where: {
       userId: u.id,
+      ...(dateFrom && { createdAt: { [Op.gte]: dateFrom } }),
     },
-    attributes: ["id", "reportPatternUrl"],
+    attributes: ["id", "createdAt"],
     include: [
       {
         model: Disease,
@@ -46,18 +53,11 @@ export const fetchHistory = asyncHandler(async (req, res) => {
       },
     ],
     order: [["id", "DESC"]],
-    limit,
-    offset,
   });
 
   return new ApiResponse({
     status: 200,
-    data: {
-      history,
-      total: count,
-      currentPage: page,
-      totalPages: Math.ceil(count / limit),
-    },
+    data: history,
   }).send(res);
 });
 

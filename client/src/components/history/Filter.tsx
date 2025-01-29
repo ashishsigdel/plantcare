@@ -1,34 +1,39 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {myColors} from '../../styles/colors';
-import Icon from 'react-native-vector-icons/Feather';
 
-const Filter = () => {
-  const [selectedFilter, setSelectedFilter] = useState('7 days');
+const Filter = ({
+  selectedFilter,
+  onFilterChange,
+}: {
+  selectedFilter: any;
+  onFilterChange: any;
+}) => {
+  const filters = ['7', '14', '30'];
 
   return (
     <View style={styles.filterContainer}>
       <View style={styles.filterView}>
-        {['7 days', '14 days', '30 days'].map(filter => (
+        {filters.map(filter => (
           <TouchableOpacity
-            activeOpacity={100}
+            activeOpacity={0.7}
             key={filter}
             style={[
               styles.button,
               selectedFilter === filter && {backgroundColor: myColors.primary},
             ]}
-            onPress={() => setSelectedFilter(filter)}>
+            onPress={() => onFilterChange(filter)}>
             <Text
               style={[
                 styles.buttonText,
                 selectedFilter === filter && {color: myColors.white},
               ]}>
-              {filter}
+              {filter} days
             </Text>
           </TouchableOpacity>
         ))}
       </View>
-      <Icon name="filter" size={20} />
+      <View></View>
     </View>
   );
 };
