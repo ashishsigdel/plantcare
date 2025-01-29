@@ -7,7 +7,6 @@ import diseaseSymptomAssociation from "./diseaseSymptomAssociation.js";
 import diagnosisAssociation from "./diagnosisAssociation.js";
 import plantAssociation from "./plantAssociation.js";
 import reportAssociation from "./reportAssociation.js";
-import uploadAssociation from "./uploadAssociation.js";
 
 export default function associations(db) {
   userAssociation(db);
@@ -19,5 +18,4 @@ export default function associations(db) {
   diagnosisAssociation(db);
   plantAssociation(db);
   reportAssociation(db);
-  uploadAssociation(db);
 }

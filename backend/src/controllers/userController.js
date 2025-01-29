@@ -1,11 +1,11 @@
+import db from "../models/index.js";
+import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { getImageURL } from "../utils/fileUpload.js";
-import ApiError from "../utils/apiError.js";
-
-import db from "../models/index.js";
 
 const {
+  User,
+  Report,
   Upload,
   Disease,
   DiseaseDescription,
@@ -13,57 +13,84 @@ const {
   DiseaseSymptom,
   DiseaseCure,
   Audio,
-  Report,
-  User,
 } = db;
 
-export const uploadImage = asyncHandler(async (req, res) => {
-  if (!req.file) {
-    throw new ApiError({
-      status: 400,
-      message: "No file uploaded!",
-    });
-  }
-
+export const fetchHistory = asyncHandler(async (req, res) => {
   const u = res.locals.user;
-
-  let publicUrl;
-  try {
-    publicUrl = await getImageURL({
-      buffer: req.file.buffer,
-      originalname: req.file.originalname,
-      mimetype: req.file.mimetype,
-    });
-  } catch (error) {
+  if (!u || !u.id) {
     throw new ApiError({
-      status: 500,
-      message: "Error uploading file to cloud.",
+      status: 401,
+      message: "User not authenticated or missing ID",
     });
   }
 
-  const upload = await Upload.create({
-    url: publicUrl,
-    userId: u.id,
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const offset = (page - 1) * limit;
+
+  const { count, rows: history } = await Report.findAndCountAll({
+    where: {
+      userId: u.id,
+    },
+    attributes: ["id", "reportPatternUrl"],
+    include: [
+      {
+        model: Disease,
+        as: "disease",
+        attributes: ["name"],
+      },
+      {
+        model: Upload,
+        as: "upload",
+        attributes: ["url", "id"],
+      },
+    ],
+    order: [["id", "DESC"]],
+    limit,
+    offset,
   });
 
-  let detectedDisesase;
-  //call api for disesase detect to AI model later
-  try {
-    detectedDisesase = {
-      plant: "Cauliflower",
-      name: "Black Rot",
-      patter: upload.url,
-    };
-  } catch (error) {
+  return new ApiResponse({
+    status: 200,
+    data: {
+      history,
+      total: count,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    },
+  }).send(res);
+});
+
+export const fetchHistoryDetail = asyncHandler(async (req, res) => {
+  const { uploadId } = req.params;
+  const u = res.locals.user;
+
+  const upload = await Upload.findByPk(uploadId);
+
+  if (!upload) {
     throw new ApiError({
-      status: 403,
-      message: "Error while detecting. Try again later.",
+      status: 404,
+      message: "Record not found!",
+    });
+  }
+
+  const report = await Report.findOne({
+    where: {
+      uploadId: uploadId,
+      userId: u.id,
+    },
+  });
+
+  if (!report) {
+    throw new ApiError({
+      status: 404,
+      message: "Report not found!",
     });
   }
 
   const disease = await Disease.findOne({
     where: {
-      name: detectedDisesase.name,
+      id: report.diseaseId,
     },
     attributes: {
       exclude: ["createdAt", "updatedAt"],
@@ -109,25 +136,19 @@ export const uploadImage = asyncHandler(async (req, res) => {
     ],
   });
 
-  await Report.create({
-    userId: u.id,
-    uploadId: upload.id,
-    diseaseId: disease.id,
-    reportPatternUrl: upload.url, // change here later
-  });
-
   let responseData = {
     plant: {
-      name: detectedDisesase.plant,
+      name: "Cauliflower",
       plantUrl: upload.url,
-      reportPatternUrl: upload.url, // chage here later
+      reportPatternUrl: report.reportPatternUrl,
     },
     disease,
   };
 
   return new ApiResponse({
     status: 200,
-    message: "Image uploaded.",
-    data: responseData,
+    data: {
+      responseData,
+    },
   }).send(res);
 });

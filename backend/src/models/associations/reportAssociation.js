@@ -11,6 +11,12 @@ const reportAssociation = (db) => {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
+  db.Report.belongsTo(db.Disease, {
+    foreignKey: "diseaseId",
+    as: "disease",
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  });
   db.Report.belongsTo(db.Upload, {
     foreignKey: "uploadId",
     as: "upload",
