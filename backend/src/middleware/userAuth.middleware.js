@@ -19,11 +19,11 @@ const authUser = async function (req, res, next) {
 
   try {
     const decodedToken = await verifyAccessToken(accessToken);
-    console.log(decodedToken);
+    // console.log(decodedToken);
     res.locals.user = decodedToken;
     next();
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     if (err.message === "jwt expired") {
       const refreshToken = req.cookies.refreshToken;
       if (!refreshToken) {
@@ -36,7 +36,7 @@ const authUser = async function (req, res, next) {
       }
       try {
         const decodedToken = await verifyRefreshToken(refreshToken);
-        console.log(decodedToken);
+        // console.log(decodedToken);
         const newAccessToken = generateAccessToken({
           userId: decodedToken.id,
         });
@@ -46,11 +46,11 @@ const authUser = async function (req, res, next) {
           sameSite: "none",
           secure: true,
         });
-        console.log("Access Token Refreshed");
+        // console.log("Access Token Refreshed");
         res.locals.user = decodedToken;
         return next();
       } catch (err) {
-        console.log(err.message);
+        // console.log(err.message);
         return next(
           new ApiError({
             status: 403,
