@@ -43,6 +43,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
 
   const upload = await Upload.create({
     url: publicUrl,
+    userId: u.id,
   });
 
   let detectedDisesase;
