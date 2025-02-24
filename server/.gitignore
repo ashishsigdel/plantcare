@@ -1,5 +1,7 @@
-model
+model/
 venv
 __pycache__/
 *.pyc
 *.pyo
+.env
+.venv
