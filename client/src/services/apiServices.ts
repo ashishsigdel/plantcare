@@ -1,6 +1,7 @@
 import axios, {AxiosInstance} from 'axios';
 
-export const baseUrl = `https://plantcare-vmxr.onrender.com/api`;
+//change the baseURl as per server 
+export const baseUrl = `http://192.168.1.102:8000/api`;
 
 const myAxios: AxiosInstance = axios.create({
   baseURL: baseUrl,

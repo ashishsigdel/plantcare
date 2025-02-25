@@ -36,7 +36,7 @@ const Result = ({result}: Props) => {
       <View style={styles.container}>
         <ScrollView scrollEventThrottle={16}>
           <View style={styles.imageContainer}>
-            <Image source={{uri: result.plant.plantUrl}} style={styles.image} />
+            <Image source={{uri: result.plant.reportPatternUrl}} style={styles.image} />
           </View>
 
           <View style={styles.plantContainer}>

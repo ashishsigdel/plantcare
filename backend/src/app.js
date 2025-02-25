@@ -5,7 +5,6 @@ import cors from "cors";
 
 import apiRoute from "./routes/index.js";
 import cookieParser from "cookie-parser";
-// import setUpSocket from "./socket.js";
 
 const app = express();
 
