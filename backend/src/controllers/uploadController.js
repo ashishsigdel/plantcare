@@ -65,7 +65,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
     formData.append("image", blob, req.file.originalname);
 
     const flaskResponse = await axios.post(
-      "http://localhost:5001/predict",
+      `${process.env.INFERENCE_SERVER}/predict`,
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
