@@ -14,7 +14,6 @@ import cauliflowerIcon from '../../../assets/icons/cauliflower.png';
 import {myColors} from '../../../styles/colors';
 import {BottomBar} from '.';
 import {resultData} from '../../../data/result';
-import cauliflower from '../../../assets/cauliflower/cauliflower.jpeg';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {HomeHelp} from '../../home';
 import {useLocale} from '../../../context/TranslationProvider';
@@ -51,12 +50,6 @@ const Result = ({result}: Props) => {
                   {resultData.plant['sci-name']}
                 </Text>
               </View>
-              <Icon
-                name="volume-high"
-                size={20}
-                color={myColors.primary}
-                style={styles.soundButton}
-              />
             </View>
             <Text style={styles.overview}>{resultData.plant.overview}</Text>
           </View>
@@ -84,11 +77,21 @@ const Result = ({result}: Props) => {
                       />
                       <Text style={styles.tabTitle}>Disease Detected:</Text>
                     </View>
-                    <Icon
-                      name="volume-high"
-                      size={20}
-                      color={myColors.primary}
-                    />
+                    <TouchableOpacity
+                      onPress={() =>
+                        playAudio(
+                          currentLanguage === 'en'
+                            ? result?.disease?.diseaseDescription?.enAudio?.url
+                            : result?.disease?.diseaseDescription?.npAudio?.url,
+                        )
+                      }
+                      style={styles.soundButton}>
+                      <Icon
+                        name="volume-high"
+                        size={20}
+                        color={myColors.primary}
+                      />
+                    </TouchableOpacity>
                   </View>
                   <Text style={styles.diseaseTitle}>
                     {result?.disease?.name}
@@ -137,7 +140,21 @@ const Result = ({result}: Props) => {
                     <Icon name="bonfire" size={24} color={myColors.black} />
                     <Text style={styles.tabTitle}>Symptoms</Text>
                   </View>
-                  <Icon name="volume-high" size={20} color={myColors.primary} />
+                  <TouchableOpacity
+                    onPress={() =>
+                      playAudio(
+                        currentLanguage === 'en'
+                          ? result?.disease?.diseaseSymptom?.enAudio?.url
+                          : result?.disease?.diseaseSymptom?.npAudio?.url,
+                      )
+                    }
+                    style={styles.soundButton}>
+                    <Icon
+                      name="volume-high"
+                      size={20}
+                      color={myColors.primary}
+                    />
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.listContainer}>
                   {currentLanguage === 'en'
@@ -187,7 +204,21 @@ const Result = ({result}: Props) => {
                     <Icon name="bulb" size={24} color={myColors.black} />
                     <Text style={styles.tabTitle}>Preventions</Text>
                   </View>
-                  <Icon name="volume-high" size={20} color={myColors.primary} />
+                  <TouchableOpacity
+                    onPress={() =>
+                      playAudio(
+                        currentLanguage === 'en'
+                          ? result?.disease?.diseasePrevention?.enAudio?.url
+                          : result?.disease?.diseasePrevention?.npAudio?.url,
+                      )
+                    }
+                    style={styles.soundButton}>
+                    <Icon
+                      name="volume-high"
+                      size={20}
+                      color={myColors.primary}
+                    />
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.listContainer}>
                   {currentLanguage === 'en'
@@ -237,7 +268,21 @@ const Result = ({result}: Props) => {
                     <Icon name="bandage" size={24} color={myColors.black} />
                     <Text style={styles.tabTitle}>Pesticides</Text>
                   </View>
-                  <Icon name="volume-high" size={20} color={myColors.primary} />
+                  <TouchableOpacity
+                    onPress={() =>
+                      playAudio(
+                        currentLanguage === 'en'
+                          ? result?.disease?.diseaseCure?.enAudio?.url
+                          : result?.disease?.diseaseCure?.npAudio?.url,
+                      )
+                    }
+                    style={styles.soundButton}>
+                    <Icon
+                      name="volume-high"
+                      size={20}
+                      color={myColors.primary}
+                    />
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.listContainer}>
                   {currentLanguage === 'en'

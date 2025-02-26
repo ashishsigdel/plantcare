@@ -20,8 +20,8 @@ const RecentScan = () => {
     <View style={styles.recentScanSection}>
       <Text style={styles.recentScanTitle}>{t('recent-scan')}</Text>
       <View style={styles.recentScanGrid}>
-        {}
-        {history.length > 0 &&
+        {history &&
+          history.length > 0 &&
           history.map((h: any) => (
             <RecentScanCard
               key={h.id}
