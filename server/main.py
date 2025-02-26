@@ -8,10 +8,13 @@ from ultralytics import YOLO
 #Import this when using second method:
 # from flask import send_file
 
+
+model = YOLO('model/best.pt')  
+
+names = model.names 
+
 app = Flask(__name__)
 CORS(app) 
-model = YOLO('model/best.pt')  
-names = model.names
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -57,4 +60,4 @@ def predict():
     # return send_file(img_io, mimetype='image/jpeg')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5000)
