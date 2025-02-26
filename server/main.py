@@ -4,14 +4,25 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from PIL import Image
 from ultralytics import YOLO
+from huggingface_hub import hf_hub_download
+import os
 
 #Import this when using second method:
 # from flask import send_file
 
+MODEL_PATH = "model/best.pt"
+
+if not os.path.exists(MODEL_PATH):
+    print("Downloading YOLOv8 model from Hugging Face...")
+    os.makedirs("model", exist_ok=True)
+    hf_hub_download(repo_id="Bishal17/plant_care", filename="best.pt", local_dir="model")
+
+model = YOLO('model/best.pt')  
+
+names = model.names 
+
 app = Flask(__name__)
 CORS(app) 
-model = YOLO('model/best.pt')  
-names = model.names
 
 @app.route('/predict', methods=['POST'])
 def predict():
