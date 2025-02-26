@@ -1,55 +1,38 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {myColors} from '../../styles/colors';
 import Icon from 'react-native-vector-icons/Feather';
 import Cauliflower from '../../assets/icons/cauliflower.png';
 import Orange from '../../assets/icons/orange.png';
 import {useTranslation} from 'react-i18next';
-
-const RecentScanCard = ({
-  icon = Cauliflower,
-  title1 = 'Scan',
-  title2 = 'Plant',
-  color = myColors.primary,
-}) => {
-  return (
-    <View style={styles.recentRecentScan}>
-      <Icon
-        name="arrow-up-right"
-        size={16}
-        color={'gray'}
-        style={styles.icon}
-      />
-      <Image source={icon} style={[styles.boxImage]} />
-      <View>
-        <Text style={[styles.boxTitle, {color: color}]}>{title1}</Text>
-        <Text style={[styles.boxTitle2, {color: myColors.gray}]}>{title2}</Text>
-      </View>
-    </View>
-  );
-};
+import useHistory from '../history/useHistory';
+import RecentScanCard from '../history/RecentScanCard';
 
 const RecentScan = () => {
   const {t} = useTranslation('home');
+  const {fetchHistory, history, loading, totalPages, currentPage} =
+    useHistory();
+
+  useEffect(() => {
+    fetchHistory(1, 3);
+  }, []);
   return (
     <View style={styles.recentScanSection}>
       <Text style={styles.recentScanTitle}>{t('recent-scan')}</Text>
       <View style={styles.recentScanGrid}>
-        <RecentScanCard
-          title1="Cauliflower"
-          title2="Soft Rot Disease - Medium Risk"
-          icon={Cauliflower}
-        />
-        <RecentScanCard
-          title1="Orange"
-          title2="Citrus Black Spot - High Risk"
-          icon={Orange}
-        />
-        <RecentScanCard
-          title1="Cauliflower"
-          title2="Healthy"
-          icon={Cauliflower}
-        />
+        {}
+        {history.length > 0 &&
+          history.map((h: any) => (
+            <RecentScanCard
+              key={h.id}
+              id={h.upload.id}
+              title1="Cauliflower"
+              title2={h.disease.name}
+              date={new Date(h.createdAt).toLocaleDateString()}
+              icon={h.hPatternUrl}
+              uploadId={h.upload.id}
+            />
+          ))}
       </View>
     </View>
   );

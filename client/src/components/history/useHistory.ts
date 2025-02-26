@@ -5,9 +5,10 @@ import NetInfo from '@react-native-community/netinfo';
 import {asyncStorage} from '../../services/asyncStorage';
 
 export default function useHistory() {
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState<'7' | '14' | '30' | ''>('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const saveHistoryToStorage = async (data: any) => {
     try {
@@ -32,7 +33,7 @@ export default function useHistory() {
     }
   };
 
-  const fetchHistory = async (till = '') => {
+  const fetchHistory = async (page: number, limit = 10) => {
     if (loading) return;
     setLoading(true);
 
@@ -40,10 +41,18 @@ export default function useHistory() {
       const isConnected = await NetInfo.fetch();
 
       if (isConnected.isConnected) {
-        const response = await myAxios.get(`/user/history?till=${till}`);
+        const response = await myAxios.get(
+          `/user/history?page=${page}&limit=${limit}`,
+        );
 
-        setHistory(response.data.data.history);
-        saveHistoryToStorage(response.data.data.history);
+        if (page === 1) {
+          setHistory(response.data.data.history);
+        } else {
+          setHistory((prev: any) => [...prev, ...response.data.data.history]);
+        }
+        // saveHistoryToStorage(response.data.data.history);
+        setTotalPages(response.data.data.totalPages);
+        setCurrentPage(response.data.data.currentPage);
       } else {
         await loadHistoryFromStorage();
       }
@@ -55,16 +64,11 @@ export default function useHistory() {
     }
   };
 
-  const handleFilterChange = (newFilter: '7' | '14' | '30' | '') => {
-    setFilter(newFilter);
-    fetchHistory(newFilter);
-  };
-
   return {
     history,
     fetchHistory,
     loading,
-    handleFilterChange,
-    filter,
+    totalPages,
+    currentPage,
   };
 }

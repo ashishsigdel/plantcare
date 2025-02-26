@@ -107,7 +107,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
         plantUrl: upload.url,
         reportPatternUrl: detectedDisesase.pattern,
       },
-      disease: [], // Change as per what to show if no disease is found.
+      disease: null,
     };
 
     return new ApiResponse({

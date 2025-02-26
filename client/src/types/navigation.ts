@@ -11,4 +11,5 @@ export type RootStackParamList = {
   analysis: undefined;
   result: undefined;
   settings: undefined;
+  HistoryResult: {id: number};
 };

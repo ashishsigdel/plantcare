@@ -45,7 +45,7 @@ const BottomBar = () => {
             }}>
             <Icon name="home" size={24} color={myColors.white} />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate('camera')}
             style={{
               alignItems: 'center',
@@ -57,14 +57,14 @@ const BottomBar = () => {
               justifyContent: 'center',
             }}>
             <Icon name="camera" size={24} color={myColors.white} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <CustomButton
-            title={'Save for Diagnosis'}
-            handlePress={() => savedForDiagnosis}
+            title={'Try another photo'}
+            handlePress={() => navigation.navigate('camera')}
             containerStyles={styles.buttonContainer}
             textStyles={styles.buttonText}
             isLoading={false}
-            iconname="bookmark"
+            iconname="camera"
           />
         </View>
       </SafeAreaView>

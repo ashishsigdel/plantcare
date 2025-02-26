@@ -3,18 +3,23 @@ import React from 'react';
 import {myColors} from '../../styles/colors';
 import scanPlant from '../../assets/icons/iris-scan.png';
 import history from '../../assets/icons/history.png';
-import timeclock from '../../assets/icons/timeclock.png';
+import user from '../../assets/icons/user.png';
 import Icon from 'react-native-vector-icons/Feather';
 import {useTranslation} from 'react-i18next';
+import {TouchableOpacity} from 'react-native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../../types/navigation';
 
 const ExploreBox = ({
   icon = scanPlant,
   title1 = 'Scan',
   title2 = 'Plant',
   color = myColors.primary,
+  onpress = () => {},
 }) => {
   return (
-    <View style={styles.exploreBox}>
+    <TouchableOpacity onPressOut={onpress} style={styles.exploreBox}>
       <Icon
         name="arrow-up-right"
         size={16}
@@ -26,12 +31,15 @@ const ExploreBox = ({
         <Text style={[styles.boxTitle, {color: color}]}>{title1}</Text>
         <Text style={[styles.boxTitle2, {color: myColors.gray}]}>{title2}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const Explore = () => {
   const {t} = useTranslation('home');
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.exploreSection}>
@@ -40,6 +48,7 @@ const Explore = () => {
         <ExploreBox
           title1={t('quick-scan')}
           title2={t('quick-scan-description')}
+          onpress={() => navigation.navigate('camera')}
         />
       </View>
       <View style={styles.exploreGrid}>
@@ -53,7 +62,8 @@ const Explore = () => {
           title1={t('browse')}
           title2={t('disease')}
           color="#5CA4A9"
-          icon={timeclock}
+          icon={user}
+          onpress={() => navigation.navigate('profile')}
         />
       </View>
     </View>

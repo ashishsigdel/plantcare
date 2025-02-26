@@ -7,4 +7,5 @@ export const myColors = {
   red: 'red',
   blue: 'blue',
   'gray-hard': '#2B2728',
+  lightGray: '#D3D3D3',
 };
