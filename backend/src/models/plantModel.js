@@ -11,7 +11,11 @@ const Plant = (sequelize, Sequelize, DataTypes) => {
         type: DataTypes.STRING(30),
         allowNull: false,
       },
-      description: {
+      descriptionEn: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      descriptionNp: {
         type: DataTypes.TEXT,
         allowNull: false,
       },
