@@ -26,18 +26,13 @@ export const fetchHistory = asyncHandler(async (req, res) => {
     });
   }
 
-  const till = parseInt(req.query.till);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 14;
+  const offset = (page - 1) * limit;
 
-  let dateFrom;
-
-  if (till) {
-    dateFrom = subDays(new Date(), till);
-  }
-
-  const history = await Report.findAll({
+  const { count, rows: history } = await Report.findAndCountAll({
     where: {
       userId: u.id,
-      ...(dateFrom && { createdAt: { [Op.gte]: dateFrom } }),
     },
     attributes: ["id", "createdAt"],
     include: [
@@ -53,11 +48,18 @@ export const fetchHistory = asyncHandler(async (req, res) => {
       },
     ],
     order: [["id", "DESC"]],
+    limit,
+    offset,
   });
 
   return new ApiResponse({
     status: 200,
-    data: history,
+    data: {
+      history,
+      total: count,
+      currentPage: page,
+      totalPages: Math.ceil(count / limit),
+    },
   }).send(res);
 });
 

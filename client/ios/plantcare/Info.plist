@@ -5,6 +5,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Plantcare needs access to your Camera.</string>
 	<key>UIAppFonts</key>
+
 	<array>
 	<string>AntDesign.ttf</string>
 	<string>Entypo.ttf</string>

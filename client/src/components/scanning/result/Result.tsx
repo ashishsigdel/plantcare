@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,27 +7,31 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  Dimensions,
 } from 'react-native';
 
 import cauliflowerIcon from '../../../assets/icons/cauliflower.png';
 import {myColors} from '../../../styles/colors';
 import {BottomBar} from '.';
 import {resultData} from '../../../data/result';
-import cauliflower from '../../../assets/cauliflower/cauliflower.jpeg';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {HomeHelp} from '../../home';
 import {useLocale} from '../../../context/TranslationProvider';
+import Images from './Images';
+import NoDiseaseFound from './NoDiseaseFound';
+import useAudioPlayer from './useAudioPlayer';
 
 interface Props {
   result?: any;
 }
+const screenWidth = Dimensions.get('window').width;
 
 const Result = ({result}: Props) => {
   const {currentLanguage} = useLocale();
+  const {playAudio} = useAudioPlayer();
 
-  const handlePlantCarePress = () => {
-    console.log('Plant care assistance pressed');
-  };
+  const images = [result?.plant.reportPatternUrl, result?.plant.plantUrl];
+
   return (
     <SafeAreaView
       style={{
@@ -35,199 +39,281 @@ const Result = ({result}: Props) => {
       }}>
       <View style={styles.container}>
         <ScrollView scrollEventThrottle={16}>
-          <View style={styles.imageContainer}>
-            <Image source={{uri: result.plant.reportPatternUrl}} style={styles.image} />
-          </View>
+          <Images images={images} />
 
           <View style={styles.plantContainer}>
             <View style={styles.rowWithGap}>
               <Image source={cauliflowerIcon} style={styles.iconImage} />
               <View>
-                <Text style={styles.plantName}>{result.plant.name}</Text>
+                <Text style={styles.plantName}>{result?.plant.name}</Text>
                 <Text style={styles.scientificName}>
                   {resultData.plant['sci-name']}
                 </Text>
               </View>
-              <Icon
-                name="volume-high"
-                size={20}
-                color={myColors.primary}
-                style={styles.soundButton}
-              />
             </View>
             <Text style={styles.overview}>{resultData.plant.overview}</Text>
           </View>
           <View style={styles.content}>
             <View style={styles.tabcontainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 7,
-                }}>
+              {result?.disease ? (
+                <>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: 7,
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 7,
+                      }}>
+                      <Icon
+                        name="bug-outline"
+                        size={24}
+                        color={myColors.black}
+                      />
+                      <Text style={styles.tabTitle}>Disease Detected:</Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() =>
+                        playAudio(
+                          currentLanguage === 'en'
+                            ? result?.disease?.diseaseDescription?.enAudio?.url
+                            : result?.disease?.diseaseDescription?.npAudio?.url,
+                        )
+                      }
+                      style={styles.soundButton}>
+                      <Icon
+                        name="volume-high"
+                        size={20}
+                        color={myColors.primary}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.diseaseTitle}>
+                    {result?.disease?.name}
+                  </Text>
+                  <Text style={styles.overview}>
+                    {currentLanguage === 'en'
+                      ? result?.disease?.diseaseDescription?.descriptionEn
+                      : result?.disease?.diseaseDescription?.descriptionNP}
+                  </Text>
+                </>
+              ) : (
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
                     gap: 7,
                   }}>
-                  <Icon name="bug-outline" size={24} color={myColors.black} />
-                  <Text style={styles.tabTitle}>Disease Detected:</Text>
-                  <Text style={styles.diseaseTitle}>{result.disease.name}</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 7,
+                    }}>
+                    <Text style={styles.tabTitle}>No Disease Detected.</Text>
+                  </View>
                 </View>
-                <Icon name="volume-high" size={20} color={myColors.primary} />
-              </View>
-              <Text style={styles.overview}>
-                {currentLanguage === 'en'
-                  ? result.disease.diseaseDescription.descriptionEn
-                  : result.disease.diseaseDescription.descriptionNP}
-              </Text>
+              )}
             </View>
 
-            <View style={styles.tabcontainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 7,
-                }}>
+            {result?.disease?.diseaseSymptom && (
+              <View style={styles.tabcontainer}>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
                     gap: 7,
                   }}>
-                  <Icon name="bonfire" size={24} color={myColors.black} />
-                  <Text style={styles.tabTitle}>Symptoms</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 7,
+                    }}>
+                    <Icon name="bonfire" size={24} color={myColors.black} />
+                    <Text style={styles.tabTitle}>Symptoms</Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      playAudio(
+                        currentLanguage === 'en'
+                          ? result?.disease?.diseaseSymptom?.enAudio?.url
+                          : result?.disease?.diseaseSymptom?.npAudio?.url,
+                      )
+                    }
+                    style={styles.soundButton}>
+                    <Icon
+                      name="volume-high"
+                      size={20}
+                      color={myColors.primary}
+                    />
+                  </TouchableOpacity>
                 </View>
-                <Icon name="volume-high" size={20} color={myColors.primary} />
+                <View style={styles.listContainer}>
+                  {currentLanguage === 'en'
+                    ? result?.disease?.diseaseSymptom?.symptomsEn
+                        .split('\n')
+                        .map((symptom: any, index: number) => (
+                          <Text key={index} style={styles.listItem}>
+                            <Icon
+                              name="leaf"
+                              size={14}
+                              color={myColors.primary}
+                            />{' '}
+                            {symptom}
+                          </Text>
+                        ))
+                    : result?.disease?.diseaseSymptom?.symptomsNP
+                        .split('\n')
+                        .map((symptom: any, index: number) => (
+                          <Text key={index} style={styles.listItem}>
+                            <Icon
+                              name="leaf"
+                              size={14}
+                              color={myColors.primary}
+                            />{' '}
+                            {symptom}
+                          </Text>
+                        ))}
+                </View>
               </View>
-              <View style={styles.listContainer}>
-                {currentLanguage === 'en'
-                  ? result.disease.diseaseSymptom.symptomsEn
-                      .split('%')
-                      .map((symptom: any, index: number) => (
-                        <Text key={index} style={styles.listItem}>
-                          <Icon
-                            name="leaf"
-                            size={14}
-                            color={myColors.primary}
-                          />{' '}
-                          {symptom}
-                        </Text>
-                      ))
-                  : result.disease.diseaseSymptom.symptomsNP
-                      .split('%')
-                      .map((symptom: any, index: number) => (
-                        <Text key={index} style={styles.listItem}>
-                          <Icon
-                            name="leaf"
-                            size={14}
-                            color={myColors.primary}
-                          />{' '}
-                          {symptom}
-                        </Text>
-                      ))}
-              </View>
-            </View>
+            )}
 
-            <View style={styles.tabcontainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 7,
-                }}>
+            {result?.disease?.diseasePrevention && (
+              <View style={styles.tabcontainer}>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
                     gap: 7,
                   }}>
-                  <Icon name="bulb" size={24} color={myColors.black} />
-                  <Text style={styles.tabTitle}>Preventions</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 7,
+                    }}>
+                    <Icon name="bulb" size={24} color={myColors.black} />
+                    <Text style={styles.tabTitle}>Preventions</Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      playAudio(
+                        currentLanguage === 'en'
+                          ? result?.disease?.diseasePrevention?.enAudio?.url
+                          : result?.disease?.diseasePrevention?.npAudio?.url,
+                      )
+                    }
+                    style={styles.soundButton}>
+                    <Icon
+                      name="volume-high"
+                      size={20}
+                      color={myColors.primary}
+                    />
+                  </TouchableOpacity>
                 </View>
-                <Icon name="volume-high" size={20} color={myColors.primary} />
+                <View style={styles.listContainer}>
+                  {currentLanguage === 'en'
+                    ? result?.disease?.diseasePrevention?.preventionsEn
+                        .split('\n')
+                        .map((symptom: any, index: number) => (
+                          <Text key={index} style={styles.listItem}>
+                            <Icon
+                              name="leaf"
+                              size={14}
+                              color={myColors.primary}
+                            />{' '}
+                            {symptom}
+                          </Text>
+                        ))
+                    : result?.disease?.diseasePrevention?.preventionsNP
+                        .split('\n')
+                        .map((symptom: any, index: number) => (
+                          <Text key={index} style={styles.listItem}>
+                            <Icon
+                              name="leaf"
+                              size={14}
+                              color={myColors.primary}
+                            />{' '}
+                            {symptom}
+                          </Text>
+                        ))}
+                </View>
               </View>
-              <View style={styles.listContainer}>
-                {currentLanguage === 'en'
-                  ? result.disease.diseasePrevention.preventionsEn
-                      .split('%')
-                      .map((symptom: any, index: number) => (
-                        <Text key={index} style={styles.listItem}>
-                          <Icon
-                            name="leaf"
-                            size={14}
-                            color={myColors.primary}
-                          />{' '}
-                          {symptom}
-                        </Text>
-                      ))
-                  : result.disease.diseasePrevention.preventionsNP
-                      .split('%')
-                      .map((symptom: any, index: number) => (
-                        <Text key={index} style={styles.listItem}>
-                          <Icon
-                            name="leaf"
-                            size={14}
-                            color={myColors.primary}
-                          />{' '}
-                          {symptom}
-                        </Text>
-                      ))}
-              </View>
-            </View>
+            )}
 
-            <View style={styles.tabcontainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 7,
-                }}>
+            {result?.disease?.diseaseCure && (
+              <View style={styles.tabcontainer}>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
                     gap: 7,
                   }}>
-                  <Icon name="bandage" size={24} color={myColors.black} />
-                  <Text style={styles.tabTitle}>Pesticides</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 7,
+                    }}>
+                    <Icon name="bandage" size={24} color={myColors.black} />
+                    <Text style={styles.tabTitle}>Pesticides</Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      playAudio(
+                        currentLanguage === 'en'
+                          ? result?.disease?.diseaseCure?.enAudio?.url
+                          : result?.disease?.diseaseCure?.npAudio?.url,
+                      )
+                    }
+                    style={styles.soundButton}>
+                    <Icon
+                      name="volume-high"
+                      size={20}
+                      color={myColors.primary}
+                    />
+                  </TouchableOpacity>
                 </View>
-                <Icon name="volume-high" size={20} color={myColors.primary} />
+                <View style={styles.listContainer}>
+                  {currentLanguage === 'en'
+                    ? result?.disease?.diseaseCure?.curesEn
+                        .split('\n')
+                        .map((symptom: any, index: number) => (
+                          <Text key={index} style={styles.listItem}>
+                            <Icon
+                              name="leaf"
+                              size={14}
+                              color={myColors.primary}
+                            />{' '}
+                            {symptom}
+                          </Text>
+                        ))
+                    : result?.disease?.diseaseCure?.curesNP
+                        .split('\n')
+                        .map((symptom: any, index: number) => (
+                          <Text key={index} style={styles.listItem}>
+                            <Icon
+                              name="leaf"
+                              size={14}
+                              color={myColors.primary}
+                            />{' '}
+                            {symptom}
+                          </Text>
+                        ))}
+                </View>
               </View>
-              <View style={styles.listContainer}>
-                {currentLanguage === 'en'
-                  ? result.disease.diseaseCure.curesEn
-                      .split('%')
-                      .map((symptom: any, index: number) => (
-                        <Text key={index} style={styles.listItem}>
-                          <Icon
-                            name="leaf"
-                            size={14}
-                            color={myColors.primary}
-                          />{' '}
-                          {symptom}
-                        </Text>
-                      ))
-                  : result.disease.diseaseCure.curesNP
-                      .split('%')
-                      .map((symptom: any, index: number) => (
-                        <Text key={index} style={styles.listItem}>
-                          <Icon
-                            name="leaf"
-                            size={14}
-                            color={myColors.primary}
-                          />{' '}
-                          {symptom}
-                        </Text>
-                      ))}
-              </View>
-            </View>
+            )}
+
             <HomeHelp />
           </View>
         </ScrollView>
@@ -245,15 +331,7 @@ const styles = StyleSheet.create({
     backgroundColor: myColors.lightwhite,
     position: 'relative',
   },
-  imageContainer: {
-    height: 300,
-    overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-  },
+
   content: {
     paddingTop: 10,
     paddingHorizontal: 10,
@@ -265,7 +343,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 5,
     position: 'relative',
-    top: -30,
+    top: 10,
     marginHorizontal: 10,
   },
   soundButton: {
@@ -279,8 +357,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 10,
     marginVertical: 5,
-    position: 'relative',
-    top: -30,
   },
   rowWithGap: {
     flexDirection: 'row',
@@ -313,9 +389,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   diseaseTitle: {
-    fontSize: 20,
+    fontSize: 25,
     color: myColors.red,
     fontWeight: 'bold',
+    marginLeft: 30,
+    marginTop: 10,
   },
   listContainer: {
     marginLeft: 20,

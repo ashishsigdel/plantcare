@@ -6,14 +6,14 @@ const diseasePreventionAssociation = (db) => {
     onUpdate: "CASCADE",
   });
   db.DiseasePrevention.belongsTo(db.Audio, {
-    foreignKey: "diseaseAVEnId",
+    foreignKey: "preventionsAVEnId",
     as: "enAudio",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   });
 
   db.DiseasePrevention.belongsTo(db.Audio, {
-    foreignKey: "diseaseAVNpId",
+    foreignKey: "preventionsAVNpId",
     as: "npAudio",
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
