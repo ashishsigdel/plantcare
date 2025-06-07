@@ -9,12 +9,20 @@ from ultralytics import YOLO
 # from flask import send_file
 
 
-model = YOLO('model/best.pt')  
+model = YOLO('model/plantcare_model.pt')  
 
 names = model.names 
 
 app = Flask(__name__)
 CORS(app) 
+
+@app.route('/')
+def show():
+    return jsonify({
+        'app': 'plantcare_api',
+        'status' : 'RUNNING'
+    })
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -60,4 +68,4 @@ def predict():
     # return send_file(img_io, mimetype='image/jpeg')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5001)
