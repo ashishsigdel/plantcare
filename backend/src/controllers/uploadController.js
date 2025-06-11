@@ -64,7 +64,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
       {
         data: [
           {
-            path: "https://res.cloudinary.com/dk79et8pr/image/upload/v1749369986/plantcare-web/photo1749369985443.jpg",
+            path: publicUrl,
             meta: {
               _type: "gradio.FileData",
             },
@@ -113,7 +113,6 @@ export const uploadImage = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     throw new ApiError({
       status: 502,
       message: "Error in inference server. Try again later.",
