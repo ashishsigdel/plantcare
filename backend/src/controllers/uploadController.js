@@ -1,8 +1,7 @@
 import ApiResponse from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
-import { getImageURL } from "../utils/fileUpload.js";
+import { getImageURL, uploadImageFromUrl } from "../utils/fileUpload.js";
 import ApiError from "../utils/apiError.js";
-import { uploadbase64Image } from "../utils/fileUpload.js";
 import axios from "axios";
 import db from "../models/index.js";
 
@@ -52,31 +51,60 @@ export const uploadImage = asyncHandler(async (req, res) => {
 
   const upload = await Upload.create({
     url: publicUrl,
-    userId: u.id,
+    userId: 2,
   });
 
   let detectedDisesase = {};
   let diseasefound;
+  let cloudres;
 
   try {
-    const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
-
-    const formData = new FormData();
-    formData.append("image", blob, req.file.originalname);
-
-    const flaskResponse = await axios.post(
-      `${process.env.INFERENCE_SERVER}/predict`,
-      formData,
+    const response = await axios.post(
+      "https://ashishsigdel-plantcare-inference.hf.space/gradio_api/call/predict",
       {
-        headers: { "Content-Type": "multipart/form-data" },
+        data: [
+          {
+            path: "https://res.cloudinary.com/dk79et8pr/image/upload/v1749369986/plantcare-web/photo1749369985443.jpg",
+            meta: {
+              _type: "gradio.FileData",
+            },
+          },
+        ],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
     );
-    const resdata = flaskResponse.data;
+    const resultData = await axios.get(
+      `https://ashishsigdel-plantcare-inference.hf.space/gradio_api/call/predict/${response.data.event_id}`
+    );
 
-    diseasefound = resdata.detections[0]?.disease;
+    const jsonLine = resultData.data.split("data: ")[1].trim();
+    const parsedData = JSON.parse(jsonLine);
+
+    const annotatedImageUrl = parsedData[0]?.url;
+
+    const detectionsText = parsedData[1] || "";
+    const detectionsArray = detectionsText
+      .split("\n")
+      .map((line) => {
+        const [disease, conf] = line.split(":");
+        return {
+          disease: disease.trim(),
+          confidence: parseFloat(conf),
+        };
+      })
+      .filter((d) => !isNaN(d.confidence));
+
+    const topDetection = detectionsArray.sort(
+      (a, b) => b.confidence - a.confidence
+    )[0];
+    diseasefound = topDetection?.disease;
+
     try {
-      const cloudres = await uploadbase64Image(resdata.annotated_image);
-      detectedDisesase.pattern = cloudres;
+      cloudres = await uploadImageFromUrl(annotatedImageUrl);
     } catch (error) {
       console.log(error);
       throw new ApiError({
@@ -105,7 +133,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
       plant: {
         name: detectedDisesase.plant,
         plantUrl: upload.url,
-        reportPatternUrl: detectedDisesase.pattern,
+        reportPatternUrl: cloudres,
       },
       disease: null,
     };
@@ -165,21 +193,23 @@ export const uploadImage = asyncHandler(async (req, res) => {
     ],
   });
 
-  await Report.create({
+  const report = await Report.create({
     userId: u.id,
     uploadId: upload.id,
     diseaseId: disease.id,
-    reportPatternUrl: detectedDisesase.pattern,
+    reportPatternUrl: cloudres,
   });
+  console.log(report);
 
   let responseData = {
     plant: {
       name: detectedDisesase.plant,
       plantUrl: upload.url,
-      reportPatternUrl: detectedDisesase.pattern,
+      reportPatternUrl: cloudres,
     },
     disease,
   };
+  console.log(responseData);
 
   return new ApiResponse({
     status: 200,
