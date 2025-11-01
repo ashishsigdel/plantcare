@@ -100,4 +100,4 @@ Make sure you have the following installed on your machine:
         npm run ios
         ```
 
-    If everything is set up correctly, you should see your new app running in your Android Emulator or iOS Simulator shortly provided you have set up your emulator/simulator correctly.
+If everything is set up correctly, you should see your new app running in your Android Emulator or iOS Simulator shortly provided you have set up your emulator/simulator correctly.
